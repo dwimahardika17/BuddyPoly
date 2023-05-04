@@ -10,6 +10,9 @@
 		4B116AC32A021379007B85D9 /* mini2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 4B116AC22A021379007B85D9 /* mini2.jpeg */; };
 		4B116AC52A035867007B85D9 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B116AC42A035867007B85D9 /* File.swift */; };
 		4B116AC72A03588A007B85D9 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B116AC62A03588A007B85D9 /* Challenge.swift */; };
+		4B116B042A03D1A1007B85D9 /* ARModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B116B032A03D1A1007B85D9 /* ARModel.swift */; };
+		4B116B062A03D1DC007B85D9 /* ARViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B116B052A03D1DC007B85D9 /* ARViewModel.swift */; };
+		4B116B082A03D1F8007B85D9 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B116B072A03D1F8007B85D9 /* Camera.swift */; };
 		4BA7EAFA2A00EFAD00076BD9 /* BuddyPolyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA7EAF92A00EFAD00076BD9 /* BuddyPolyApp.swift */; };
 		4BA7EAFC2A00EFAD00076BD9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA7EAFB2A00EFAD00076BD9 /* ContentView.swift */; };
 		4BA7EAFE2A00EFAE00076BD9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BA7EAFD2A00EFAE00076BD9 /* Assets.xcassets */; };
@@ -44,6 +47,9 @@
 		4B116AC22A021379007B85D9 /* mini2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mini2.jpeg; sourceTree = "<group>"; };
 		4B116AC42A035867007B85D9 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		4B116AC62A03588A007B85D9 /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
+		4B116B032A03D1A1007B85D9 /* ARModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARModel.swift; sourceTree = "<group>"; };
+		4B116B052A03D1DC007B85D9 /* ARViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewModel.swift; sourceTree = "<group>"; };
+		4B116B072A03D1F8007B85D9 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		4BA7EAF62A00EFAD00076BD9 /* BuddyPoly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BuddyPoly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BA7EAF92A00EFAD00076BD9 /* BuddyPolyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuddyPolyApp.swift; sourceTree = "<group>"; };
 		4BA7EAFB2A00EFAD00076BD9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -85,6 +91,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B116B022A03D18D007B85D9 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				4B116B032A03D1A1007B85D9 /* ARModel.swift */,
+				4B116B052A03D1DC007B85D9 /* ARViewModel.swift */,
+				4B116B072A03D1F8007B85D9 /* Camera.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
 		4BA7EAED2A00EFAD00076BD9 = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +124,7 @@
 		4BA7EAF82A00EFAD00076BD9 /* BuddyPoly */ = {
 			isa = PBXGroup;
 			children = (
+				4B116B022A03D18D007B85D9 /* Camera */,
 				4BA7EAF92A00EFAD00076BD9 /* BuddyPolyApp.swift */,
 				4BA7EAFB2A00EFAD00076BD9 /* ContentView.swift */,
 				4B116AC22A021379007B85D9 /* mini2.jpeg */,
@@ -287,10 +304,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B116B082A03D1F8007B85D9 /* Camera.swift in Sources */,
 				4BA7EB262A010EB100076BD9 /* SelectPlayer.swift in Sources */,
 				4B116AC72A03588A007B85D9 /* Challenge.swift in Sources */,
+				4B116B042A03D1A1007B85D9 /* ARModel.swift in Sources */,
 				4BA7EB2D2A0110F500076BD9 /* Game.swift in Sources */,
 				4BA7EB2B2A0110B000076BD9 /* PlayersAndCardInitiation.swift in Sources */,
+				4B116B062A03D1DC007B85D9 /* ARViewModel.swift in Sources */,
 				4BA7EAFC2A00EFAD00076BD9 /* ContentView.swift in Sources */,
 				4BA7EB292A01106B00076BD9 /* GameScene.swift in Sources */,
 				4B116AC52A035867007B85D9 /* File.swift in Sources */,

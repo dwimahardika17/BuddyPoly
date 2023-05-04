@@ -340,6 +340,14 @@ class GameScene: SKScene {
         // Thread.sleep(forTimeInterval: 1)
     }
     
+    func presentSwiftUIView() {
+        let swiftUIView = Camera()
+        if let viewController = self.view?.window?.rootViewController {
+            let hostingController = UIHostingController(rootView: swiftUIView)
+            viewController.present(hostingController, animated: true, completion: nil)
+        }
+    }
+    
     func touchDown(atPoint pos : CGPoint) {
     }
     
@@ -1072,12 +1080,16 @@ class GameScene: SKScene {
         } else if ((objPosition.x == -460 && objPosition.y == -50)) && countShown == 0 {
             print("Nyampe Force Move")  //Force Move
             countShown = 1
+            let randomPosition = Int.random(in: 0...24)
+            let randomPlayer = Int.random(in: 0...playersDataArray.count)
+            movePiece(playersDataArray[randomPlayer].pieceNode, toTile: randomPosition)
         } else if ((objPosition.x == 70 && objPosition.y == 90)) && countShown == 0 {
             print("Nyampe Let Go")  //Let Go
             countShown = 1
         } else if ((objPosition.x == 130 && objPosition.y == -10)) && countShown == 0 {
             print("Nyampe Start")  //Start
             countShown = 1
+            presentSwiftUIView()
         }
     }
     
