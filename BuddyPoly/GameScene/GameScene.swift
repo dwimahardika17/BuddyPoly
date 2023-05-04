@@ -11,10 +11,11 @@ import SwiftUI
 import Dispatch
 import UIKit
 
-var cardArray = Card.cardData // inisiasi array
-var playersDataArray = PlayersData.sampleData // inisiasi array
+
 var buy : Bool = true
 var challenges = Challenge.allValues // inisiasi challenge
+
+
 
 class MyObject {
     var objPosition: CGPoint = .zero
@@ -43,6 +44,7 @@ class Player {
 }
 
 class GameScene: SKScene {
+    
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     private var boardNodes = [SKNode]()
@@ -105,145 +107,146 @@ class GameScene: SKScene {
     private var challengeName: String = "Truth or Dare"
     
     override func didMove(to view: SKView) {
-        var playerInfoView1 = UIView(frame: CGRect(x: 15, y: 13, width: 348, height: 150))
-        var playerInfoView2 = UIView(frame: CGRect(x: 831, y: 13, width: 348, height: 150))
-        var playerInfoView3 = UIView(frame: CGRect(x: 831, y: 666, width: 348, height: 150))
-        var playerInfoView4 = UIView(frame: CGRect(x: 15, y: 666, width: 348, height: 150))
-        
-        let playerInfoView1Background = UIImageView(frame: CGRect(x: 15, y: 14, width: 348, height: 150))
-        playerInfoView1Background.image = UIImage(named: "background_player_info")
-        
-        let playerInfoView2Background = UIImageView(frame: CGRect(x: 831, y: 13, width: 348, height: 150))
-        playerInfoView1Background.image = UIImage(named: "background_player_info")
-    
-        let playerInfoView3Background = UIImageView(frame: CGRect(x: 831, y: 666, width: 348, height: 150))
-        playerInfoView1Background.image = UIImage(named: "background_player_info")
-        
-        let playerInfoView4Background = UIImageView(frame: CGRect(x: 15, y: 656, width: 348, height: 150))
-        playerInfoView1Background.image = UIImage(named: "background_player_info")
-        
-        // Set the background color of the view
-        playerInfoView1.backgroundColor = UIColor(.red)
-        
-        // Create an UIImageView for the player avatar
-        let avatarImageView1 = UIImageView(frame: CGRect(x: 44, y: 41, width: 82, height: 97))
-        let avatarImageView2 = UIImageView(frame: CGRect(x: 44, y: 41, width: 82, height: 97))
-        let avatarImageView3 = UIImageView(frame: CGRect(x: 44, y: 41, width: 82, height: 97))
-        let avatarImageView4 = UIImageView(frame: CGRect(x: 44, y: 41, width: 82, height: 97))
-        
-        // Set the image for the avatar
-        avatarImageView1.image = UIImage(named: "playerfix1")
-        avatarImageView2.image = UIImage(named: "playerfix2")
-        avatarImageView3.image = UIImage(named: "playerfix3")
-        avatarImageView4.image = UIImage(named: "playerfix4")
-        
-        
-        // Add the avatar image view to the player info view
-        
-        
-        
-        
-        // Create an UILabel for the player score
-        let scoreLabel1 = UILabel(frame: CGRect(x: 202, y: 99, width: 52, height: 22))
-        let scoreLabel2 = UILabel(frame: CGRect(x: 202, y: 99, width: 52, height: 22))
-        let scoreLabel3 = UILabel(frame: CGRect(x: 202, y: 99, width: 52, height: 22))
-        let scoreLabel4 = UILabel(frame: CGRect(x: 202, y: 99, width: 52, height: 22))
-        
-        let playerlabel1 = UILabel(frame: CGRect(x: 149, y: 50, width: 144, height: 25))
-        let playerlabel2 = UILabel(frame: CGRect(x: 149, y: 50, width: 144, height: 25))
-        let playerlabel3 = UILabel(frame: CGRect(x: 149, y: 50, width: 144, height: 25))
-        let playerlabel4 = UILabel(frame: CGRect(x: 149, y: 50, width: 144, height: 25))
-        
-        
-        
-        let coinImageView1 = UIImageView(frame: CGRect(x: 144, y: 86, width: 51, height: 46))
-        coinImageView1.image = UIImage(named: "coin")
-        
-        let coinImageView2 = UIImageView(frame: CGRect(x: 144, y: 86, width: 51, height: 46))
-        coinImageView2.image = UIImage(named: "coin")
-        
-        let coinImageView3 = UIImageView(frame: CGRect(x: 144, y: 86, width: 51, height: 46))
-        coinImageView3.image = UIImage(named: "coin")
-        
-        let coinImageView4 = UIImageView(frame: CGRect(x: 156, y: 732, width: 51, height: 46))
-        coinImageView4.image = UIImage(named: "coin")
-        
-        // Set the text for the score label
-        playerlabel1.text = "PLAYER 1"
-        playerlabel2.text = "PLAYER 2"
-        playerlabel3.text = "PLAYER 3"
-        playerlabel4.text = "PLAYER 4"
-//            scoreLabel1.text = String(playersDataArray[0].currentPoin)
-        
-        // Set the font and text color for the score label
-        scoreLabel1.font = UIFont.systemFont(ofSize: 24)
-        scoreLabel1.textColor = UIColor(hex: 0x215172)
-        
-        scoreLabel2.font = UIFont.systemFont(ofSize: 24)
-        scoreLabel2.textColor = UIColor(hex: 0x215172)
-        
-        scoreLabel3.font = UIFont.systemFont(ofSize: 24)
-        scoreLabel3.textColor = UIColor(hex: 0x215172)
-        
-        scoreLabel4.font = UIFont.systemFont(ofSize: 24)
-        scoreLabel4.textColor = UIColor(hex: 0x215172)
-        
-        playerlabel1.font = UIFont.systemFont(ofSize: 32)
-        playerlabel1.textColor = UIColor(hex: 0x215172)
-        
-        playerlabel2.font = UIFont.systemFont(ofSize: 32)
-        playerlabel2.textColor = UIColor(hex: 0x215172)
-        
-        playerlabel3.font = UIFont.systemFont(ofSize: 32)
-        playerlabel3.textColor = UIColor(hex: 0x215172)
-        
-        playerlabel4.font = UIFont.systemFont(ofSize: 32)
-        playerlabel4.textColor = UIColor(hex: 0x215172)
-        
-        scoreLabel1.text = "\(playersDataArray[0].currentPoin)"
-        scoreLabel2.text = "\(playersDataArray[1].currentPoin)"
-        scoreLabel3.text = "\(playersDataArray[2].currentPoin)"
-        scoreLabel4.text = "\(playersDataArray[3].currentPoin)"
-
-        
-        
-        
-        // Add the score label to the player info view
-        playerInfoView1.addSubview(scoreLabel1)
-        playerInfoView1.addSubview(coinImageView1)
-        playerInfoView1.addSubview(playerlabel1)
-        playerInfoView1.addSubview(playerInfoView1Background)
-        playerInfoView1.addSubview(avatarImageView1)
-        
-        playerInfoView2.addSubview(scoreLabel2)
-        playerInfoView2.addSubview(coinImageView2)
-        playerInfoView2.addSubview(playerlabel2)
-        playerInfoView2.addSubview(playerInfoView2Background)
-        playerInfoView2.addSubview(avatarImageView2)
-        
-        playerInfoView3.addSubview(scoreLabel3)
-        playerInfoView3.addSubview(coinImageView3)
-        playerInfoView3.addSubview(playerlabel3)
-        playerInfoView3.addSubview(playerInfoView3Background)
-        playerInfoView3.addSubview(avatarImageView3)
-        
-        playerInfoView4.addSubview(scoreLabel4)
-        playerInfoView4.addSubview(coinImageView4)
-        playerInfoView4.addSubview(playerlabel4)
-        playerInfoView4.addSubview(playerInfoView4Background)
-        playerInfoView4.addSubview(avatarImageView4)
-
-        // Add the player info view to the main view
-        view.addSubview(playerInfoView1)
-        view.addSubview(playerInfoView2)
-        view.addSubview(playerInfoView3)
-        view.addSubview(playerInfoView4)
-        
-        // Position the player info view to the top left corner of the screen
-        playerInfoView1.translatesAutoresizingMaskIntoConstraints = false
-        playerInfoView1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        playerInfoView1.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
-        
+ 
+//        var playerInfoView1 = UIView(frame: CGRect(x: 15, y: 13, width: 348, height: 150))
+//        var playerInfoView2 = UIView(frame: CGRect(x: 831, y: 13, width: 348, height: 150))
+//        var playerInfoView3 = UIView(frame: CGRect(x: 831, y: 666, width: 348, height: 150))
+//        var playerInfoView4 = UIView(frame: CGRect(x: 15, y: 666, width: 348, height: 150))
+//
+//        let playerInfoView1Background = UIImageView(frame: CGRect(x: 15, y: 14, width: 348, height: 150))
+//        playerInfoView1Background.image = UIImage(named: "background_player_info")
+//
+//        let playerInfoView2Background = UIImageView(frame: CGRect(x: 831, y: 13, width: 348, height: 150))
+//        playerInfoView1Background.image = UIImage(named: "background_player_info")
+//
+//        let playerInfoView3Background = UIImageView(frame: CGRect(x: 831, y: 666, width: 348, height: 150))
+//        playerInfoView1Background.image = UIImage(named: "background_player_info")
+//
+//        let playerInfoView4Background = UIImageView(frame: CGRect(x: 15, y: 656, width: 348, height: 150))
+//        playerInfoView1Background.image = UIImage(named: "background_player_info")
+//
+//        // Set the background color of the view
+//        playerInfoView1.backgroundColor = UIColor(.red)
+//
+//        // Create an UIImageView for the player avatar
+//        let avatarImageView1 = UIImageView(frame: CGRect(x: 44, y: 41, width: 82, height: 97))
+//        let avatarImageView2 = UIImageView(frame: CGRect(x: 44, y: 41, width: 82, height: 97))
+//        let avatarImageView3 = UIImageView(frame: CGRect(x: 44, y: 41, width: 82, height: 97))
+//        let avatarImageView4 = UIImageView(frame: CGRect(x: 44, y: 41, width: 82, height: 97))
+//
+//        // Set the image for the avatar
+//        avatarImageView1.image = UIImage(named: "playerfix1")
+//        avatarImageView2.image = UIImage(named: "playerfix2")
+//        avatarImageView3.image = UIImage(named: "playerfix3")
+//        avatarImageView4.image = UIImage(named: "playerfix4")
+//
+//
+//        // Add the avatar image view to the player info view
+//
+//
+//
+//
+//        // Create an UILabel for the player score
+//        let scoreLabel1 = UILabel(frame: CGRect(x: 202, y: 99, width: 52, height: 22))
+//        let scoreLabel2 = UILabel(frame: CGRect(x: 202, y: 99, width: 52, height: 22))
+//        let scoreLabel3 = UILabel(frame: CGRect(x: 202, y: 99, width: 52, height: 22))
+//        let scoreLabel4 = UILabel(frame: CGRect(x: 202, y: 99, width: 52, height: 22))
+//
+//        let playerlabel1 = UILabel(frame: CGRect(x: 149, y: 50, width: 144, height: 25))
+//        let playerlabel2 = UILabel(frame: CGRect(x: 149, y: 50, width: 144, height: 25))
+//        let playerlabel3 = UILabel(frame: CGRect(x: 149, y: 50, width: 144, height: 25))
+//        let playerlabel4 = UILabel(frame: CGRect(x: 149, y: 50, width: 144, height: 25))
+//
+//
+//
+//        let coinImageView1 = UIImageView(frame: CGRect(x: 144, y: 86, width: 51, height: 46))
+//        coinImageView1.image = UIImage(named: "coin")
+//
+//        let coinImageView2 = UIImageView(frame: CGRect(x: 144, y: 86, width: 51, height: 46))
+//        coinImageView2.image = UIImage(named: "coin")
+//
+//        let coinImageView3 = UIImageView(frame: CGRect(x: 144, y: 86, width: 51, height: 46))
+//        coinImageView3.image = UIImage(named: "coin")
+//
+//        let coinImageView4 = UIImageView(frame: CGRect(x: 156, y: 732, width: 51, height: 46))
+//        coinImageView4.image = UIImage(named: "coin")
+//
+//        // Set the text for the score label
+//        playerlabel1.text = "PLAYER 1"
+//        playerlabel2.text = "PLAYER 2"
+//        playerlabel3.text = "PLAYER 3"
+//        playerlabel4.text = "PLAYER 4"
+////            scoreLabel1.text = String(playersDataArray[0].currentPoin)
+//
+//        // Set the font and text color for the score label
+//        scoreLabel1.font = UIFont.systemFont(ofSize: 24)
+//        scoreLabel1.textColor = UIColor(hex: 0x215172)
+//
+//        scoreLabel2.font = UIFont.systemFont(ofSize: 24)
+//        scoreLabel2.textColor = UIColor(hex: 0x215172)
+//
+//        scoreLabel3.font = UIFont.systemFont(ofSize: 24)
+//        scoreLabel3.textColor = UIColor(hex: 0x215172)
+//
+//        scoreLabel4.font = UIFont.systemFont(ofSize: 24)
+//        scoreLabel4.textColor = UIColor(hex: 0x215172)
+//
+//        playerlabel1.font = UIFont.systemFont(ofSize: 32)
+//        playerlabel1.textColor = UIColor(hex: 0x215172)
+//
+//        playerlabel2.font = UIFont.systemFont(ofSize: 32)
+//        playerlabel2.textColor = UIColor(hex: 0x215172)
+//
+//        playerlabel3.font = UIFont.systemFont(ofSize: 32)
+//        playerlabel3.textColor = UIColor(hex: 0x215172)
+//
+//        playerlabel4.font = UIFont.systemFont(ofSize: 32)
+//        playerlabel4.textColor = UIColor(hex: 0x215172)
+//
+//        scoreLabel1.text = "\(playersDataArray[0].currentPoin)"
+//        scoreLabel2.text = "\(playersDataArray[1].currentPoin)"
+//        scoreLabel3.text = "\(playersDataArray[2].currentPoin)"
+//        scoreLabel4.text = "\(playersDataArray[3].currentPoin)"
+//
+//
+//
+//
+//        // Add the score label to the player info view
+//        playerInfoView1.addSubview(scoreLabel1)
+//        playerInfoView1.addSubview(coinImageView1)
+//        playerInfoView1.addSubview(playerlabel1)
+//        playerInfoView1.addSubview(playerInfoView1Background)
+//        playerInfoView1.addSubview(avatarImageView1)
+//
+//        playerInfoView2.addSubview(scoreLabel2)
+//        playerInfoView2.addSubview(coinImageView2)
+//        playerInfoView2.addSubview(playerlabel2)
+//        playerInfoView2.addSubview(playerInfoView2Background)
+//        playerInfoView2.addSubview(avatarImageView2)
+//
+//        playerInfoView3.addSubview(scoreLabel3)
+//        playerInfoView3.addSubview(coinImageView3)
+//        playerInfoView3.addSubview(playerlabel3)
+//        playerInfoView3.addSubview(playerInfoView3Background)
+//        playerInfoView3.addSubview(avatarImageView3)
+//
+//        playerInfoView4.addSubview(scoreLabel4)
+//        playerInfoView4.addSubview(coinImageView4)
+//        playerInfoView4.addSubview(playerlabel4)
+//        playerInfoView4.addSubview(playerInfoView4Background)
+//        playerInfoView4.addSubview(avatarImageView4)
+//
+//        // Add the player info view to the main view
+//        view.addSubview(playerInfoView1)
+//        view.addSubview(playerInfoView2)
+//        view.addSubview(playerInfoView3)
+//        view.addSubview(playerInfoView4)
+//
+//        // Position the player info view to the top left corner of the screen
+//        playerInfoView1.translatesAutoresizingMaskIntoConstraints = false
+//        playerInfoView1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+//        playerInfoView1.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0).isActive = true
+//
         //-----------------------------------BACKGROUND INITIATION--------------------------------------
         let background = SKSpriteNode(imageNamed: "mini2")
         background.position = CGPoint(x: 0, y: 0)
@@ -265,31 +268,31 @@ class GameScene: SKScene {
             boardNodes.append(tileNode)
         }
         
-        boardNodes[0].position = CGPoint(x: 130 , y: -10) //START
-        boardNodes[1].position = CGPoint(x: 190 , y: -110) //HOME
-        boardNodes[2].position = CGPoint(x: 280 , y: -170) //WY
-        boardNodes[3].position = CGPoint(x: 380 , y: -180) //RandomCHallenge
-        boardNodes[4].position = CGPoint(x: 450 , y: -120) //2T1L
-        boardNodes[5].position = CGPoint(x: 470 , y: 0) // WY
-        boardNodes[6].position = CGPoint(x: 420 , y: 80) //ToD
-        boardNodes[7].position = CGPoint(x: 320 , y: 110) //RandomChallenge
-        boardNodes[8].position = CGPoint(x: 210 , y: 60) //2T1L
-        boardNodes[9].position = CGPoint(x: 60 , y: -130) //TOD
-        boardNodes[10].position = CGPoint(x: -10 , y: -210) //WY
-        boardNodes[11].position = CGPoint(x: -90 , y: -250) //RandomChallenge
-        boardNodes[12].position = CGPoint(x: -180 , y: -270) //WY
-        boardNodes[13].position = CGPoint(x: -270 , y: -240) //ToD
-        boardNodes[14].position = CGPoint(x: -355 , y: -205) //ToD
-        boardNodes[15].position = CGPoint(x: -425 , y: -135) //RandomChallenge
-        boardNodes[16].position = CGPoint(x: -460 , y: -50) //ForceMove
-        boardNodes[17].position = CGPoint(x: -470 , y: 40) //2T1l
-        boardNodes[18].position = CGPoint(x: -425 , y: 135) //2T1L
-        boardNodes[19].position = CGPoint(x: -360 , y: 200) //RandomChallenge
-        boardNodes[20].position = CGPoint(x: -270 , y: 240) //WY
-        boardNodes[21].position = CGPoint(x: -170 , y: 260) //2T1L
-        boardNodes[22].position = CGPoint(x: -80 , y: 240) //ToD
-        boardNodes[23].position = CGPoint(x: 10 , y: 180) //RandomChallenge
-        boardNodes[24].position = CGPoint(x: 70 , y: 90) //LetGo
+        boardNodes[0].position = CGPoint(x: 110 , y: -10) //START
+        boardNodes[1].position = CGPoint(x: 170 , y: -95) //HOME
+        boardNodes[2].position = CGPoint(x: 240 , y: -150) //WY
+        boardNodes[3].position = CGPoint(x: 340 , y: -160) //RandomCHallenge
+        boardNodes[4].position = CGPoint(x: 410 , y: -100) //2T1L
+        boardNodes[5].position = CGPoint(x: 430 , y: 20) // WY
+        boardNodes[6].position = CGPoint(x: 380 , y: 100) //ToD
+        boardNodes[7].position = CGPoint(x: 280 , y: 110) //RandomChallenge
+        boardNodes[8].position = CGPoint(x: 170 , y: 60) //2T1L
+        boardNodes[9].position = CGPoint(x: 20 , y: -130) //TOD
+        boardNodes[10].position = CGPoint(x: -50 , y: -210) //WY
+        boardNodes[11].position = CGPoint(x: -130 , y: -250) //RandomChallenge
+        boardNodes[12].position = CGPoint(x: -220 , y: -270) //WY
+        boardNodes[13].position = CGPoint(x: -310 , y: -240) //ToD
+        boardNodes[14].position = CGPoint(x: -395 , y: -205) //ToD
+        boardNodes[15].position = CGPoint(x: -465 , y: -135) //RandomChallenge
+        boardNodes[16].position = CGPoint(x: -500 , y: -50) //ForceMove
+        boardNodes[17].position = CGPoint(x: -510 , y: 40) //2T1l
+        boardNodes[18].position = CGPoint(x: -465 , y: 135) //2T1L
+        boardNodes[19].position = CGPoint(x: -400 , y: 200) //RandomChallenge
+        boardNodes[20].position = CGPoint(x: -310 , y: 240) //WY
+        boardNodes[21].position = CGPoint(x: -210 , y: 260) //2T1L
+        boardNodes[22].position = CGPoint(x: -120 , y: 240) //ToD
+        boardNodes[23].position = CGPoint(x: -40 , y: 180) //RandomChallenge
+        boardNodes[24].position = CGPoint(x: 30 , y: 90) //LetGo
         
         let startingBoardNode = boardNodes[0] // assuming you have an array of board nodes
         
@@ -299,6 +302,7 @@ class GameScene: SKScene {
             playersDataArray[player].pieceNode.position = startingBoardNode.position
             playersDataArray[player].pieceNode.isUserInteractionEnabled = true
             playersDataArray[player].pieceNode.name = "gamePiece"
+            playersDataArray[player].pieceNode
             boardNode.addChild(playersDataArray[player].pieceNode)
         }
         

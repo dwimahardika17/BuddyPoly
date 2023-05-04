@@ -57,50 +57,56 @@ struct SelectPlayer: View {
             }
             )
             if isHidden {
-                VStack{
-                    Text("PLAYER NAME")
-                        .font(.largeTitle)
-                    //                    HStack{
-                    //                        Image("Oval")
-                    //                            .resizable()
-                    //                            .frame(width: 50, height: 50)
-                    //                        Image("Oval")
-                    //                            .resizable()
-                    //                            .frame(width: 50, height: 50)
-                    //                        Image("Oval")
-                    //                            .resizable()
-                    //                            .frame(width: 50, height: 50)
-                    //                        Image("Oval")
-                    //                            .resizable()
-                    //                            .frame(width: 50, height: 50)
-                    //                    }
-                    ForEach(0..<Int(playerCount), id: \.self) { index in
-                        TextField("Player \(index + 1)", text: $playerNames[index])
-                            .background()
-                            .frame(width: 300)
-                            .cornerRadius(10)
-                    }
-                        Image("Start")
-                            .resizable()
-                            .frame(width: 100, height: 50)
-                            .onTapGesture {
-                                var playersData = Array(repeating: PlayersData(playersName: "", currentSteps: 0, currentPoin: 750, pieceNode: SKSpriteNode()), count: Int(playerCount))
-                                for index in 0..<Int(playerCount) {
-                                    playersData[index].playersName = playerNames[index]
+                VStack {
+                    ScrollView {
+                        Text("PLAYER NAME")
+                            .font(.largeTitle)
+                        //                    HStack{
+                        //                        Image("Oval")
+                        //                            .resizable()
+                        //                            .frame(width: 50, height: 50)
+                        //                        Image("Oval")
+                        //                            .resizable()
+                        //                            .frame(width: 50, height: 50)
+                        //                        Image("Oval")
+                        //                            .resizable()
+                        //                            .frame(width: 50, height: 50)
+                        //                        Image("Oval")
+                        //                            .resizable()
+                        //                            .frame(width: 50, height: 50)
+                        //                    }
+                        ForEach(0..<Int(playerCount), id: \.self) { index in
+                            Image("playerfix\(index+1)")
+                            TextField("Player \(index + 1)", text: $playerNames[index])
+                                .background()
+                                .frame(width: 300)
+                                .cornerRadius(10)
+                        }
+                            Image("Start")
+                                .resizable()
+                                .frame(width: 100, height: 50)
+                                .onTapGesture {
+    //                                var playersData = Array(repeating: PlayersData(playersName: "", currentSteps: 0, currentPoin: 750, pieceNode: SKSpriteNode()), count: Int(playerCount))
+                                    for index in 0..<Int(playerCount) {
+                                        addPlayer(name: playerNames[index], steps: 0, poin: 750, pieceNode: SKSpriteNode(imageNamed: "playerfix\(index+1)"))
+    //                                    playersData[index].playersName = playerNames[index]
+                                        
+                                    }
+                                    print("\(playersDataArray)")
+                                    showGameView = true
                                 }
-                                showGameView = true
-                            }
-                    NavigationLink(destination: Game(), isActive: $showGameView) {
-                               EmptyView()
-                           }
-                    
+                        NavigationLink(destination: Game(), isActive: $showGameView) {
+                                   EmptyView()
+                               }
                         
-                    //            .hidden()
-                }
-                .frame(width: 500, height: 500)
-                .background(.white)
-                .cornerRadius(20)
+                            
+                        //            .hidden()
+                    }
+                    .frame(width: 500, height: 500)
+                    .background(.white)
+                    .cornerRadius(20)
                 .offset(x:-30)
+                }
             }
                 
                 
@@ -110,10 +116,7 @@ struct SelectPlayer: View {
         }
     }
 
-//func addPlayer(name: String, steps: Int, poin: Int) {
-//    let newPlayerData = playersData(playersName: name, currentSteps: steps, currentPoin: poin)
-//    playersDataArray.append(newPlayerData)
-//}
+
     
     struct SelectPlayer_Previews: PreviewProvider {
         static var previews: some View {

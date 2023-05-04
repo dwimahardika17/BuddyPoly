@@ -19,7 +19,7 @@ struct Game: View {
 
         var body: some View {
             SpriteView(scene: self.scene)
-                .frame(width: 1200, height: 1000)
+                .frame(width: 1200, height: 900)
                 .ignoresSafeArea()
                 .navigationBarBackButtonHidden(true)
         }

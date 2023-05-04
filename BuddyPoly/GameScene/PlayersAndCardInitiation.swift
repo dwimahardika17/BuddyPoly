@@ -82,10 +82,16 @@ struct PlayersData: Identifiable {
 extension PlayersData {
     static var sampleData: [PlayersData] {
         [
-            PlayersData(playersName: "Player 1", currentSteps: 0, currentPoin: 750, pieceNode: SKSpriteNode(imageNamed: "player1")),
-            PlayersData(playersName: "Player 2", currentSteps: 0, currentPoin: 750, pieceNode: SKSpriteNode(imageNamed: "player2")),
-            PlayersData(playersName: "Player 3", currentSteps: 0, currentPoin: 750, pieceNode: SKSpriteNode(imageNamed: "player3")),
-            PlayersData(playersName: "Player 4", currentSteps: 0, currentPoin: 750, pieceNode: SKSpriteNode(imageNamed: "player4")),
+            
         ]
     }
 }
+
+func addPlayer(name: String, steps: Int, poin: Int, pieceNode: SKSpriteNode) {
+    let newPlayerData = PlayersData(playersName: name, currentSteps: steps, currentPoin: poin, pieceNode: pieceNode)
+    playersDataArray.append(newPlayerData)
+}
+var cardArray = Card.cardData // inisiasi array
+var playersDataArray = PlayersData.sampleData // inisiasi array
+
+
