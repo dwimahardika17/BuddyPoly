@@ -26,6 +26,7 @@ struct Game: View {
     
 }
 
+
 struct Game_Previews: PreviewProvider {
     static var previews: some View {
         Game()
