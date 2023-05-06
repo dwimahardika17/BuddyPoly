@@ -1,0 +1,155 @@
+{
+  "__content" : [
+    {
+      "scenes" : [
+        {
+          "__content" : [
+            {
+              "arAnchorSpecification" : {
+                "name" : "face"
+              },
+              "behaviors" : [
+
+              ],
+              "gravity" : [
+                0,
+                0,
+                9.8000001907348633
+              ],
+              "identifier" : "200DEE36-6464-415B-B472-BBA6FA9A804A",
+              "material" : "concrete",
+              "overrides" : {
+                "children" : {
+                  "9D5DF9BF-BC3D-4A27-A424-E45008BE847B" : {
+                    "overrides" : {
+                      "arguments" : [
+                        [
+                          "doubleSided",
+                          {
+                            "typeName" : "Bool",
+                            "value" : true
+                          }
+                        ],
+                        [
+                          "image",
+                          {
+                            "typeName" : "String",
+                            "value" : "image:80fc97bab193ddda9e3ea0d61c7ec905\/Filter%20Missions-02.png"
+                          }
+                        ],
+                        [
+                          "maxDimension",
+                          {
+                            "typeName" : "Double",
+                            "value" : 0.59399999999999997
+                          }
+                        ]
+                      ],
+                      "factory" : {
+                        "identifier" : "com.apple.rc.af.CoreAssetFactories.PosterAssetFactory",
+                        "version" : "1.0"
+                      },
+                      "runtimeAttributes" : [
+                        [
+                          "RuntimeIdentifier",
+                          {
+                            "typeName" : "UUID",
+                            "value" : "D004468B-1D7C-47AE-96B9-D2877FD7D1F8"
+                          }
+                        ]
+                      ]
+                    },
+                    "transform" : {
+                      "matrix" : [
+                        1.6829549074172974,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1.6829549074172974,
+                        4.8019175305979642e-14,
+                        0,
+                        0,
+                        -4.8019175305979642e-14,
+                        1.6829549074172974,
+                        0,
+                        -0.0081808753311634064,
+                        0.00085670669795945287,
+                        0.0021441758144646883,
+                        1
+                      ]
+                    }
+                  },
+                  "30C0617E-266C-4E3C-85C3-4D8FDF27BB30" : null,
+                  "65668806-86CD-4A6C-A4E4-371BE2C68A40" : null
+                },
+                "factory" : null,
+                "runtimeAttributes" : [
+                  [
+                    "isAccessibilityEnabled",
+                    {
+                      "typeName" : "Bool",
+                      "value" : false
+                    }
+                  ]
+                ]
+              },
+              "physicsMode" : "grid",
+              "title" : "Skenario",
+              "viewTransform" : {
+                "cameraTransform" : [
+                  0.99751466512680054,
+                  -3.7735339297739756e-09,
+                  0.070458598434925079,
+                  0,
+                  0.0066536068916320801,
+                  0.99553132057189941,
+                  -0.094197630882263184,
+                  0,
+                  -0.070143796503543854,
+                  0.094432353973388672,
+                  0.99305707216262817,
+                  0,
+                  -0.036344487220048904,
+                  0.28202614188194275,
+                  1.099626898765564,
+                  1
+                ],
+                "sceneTransform" : [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0,
+                  -1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              }
+            }
+          ],
+          "__version" : 5
+        }
+      ],
+      "tags" : {
+        "__content" : [
+          {
+            "tagsStore" : {
+
+            }
+          }
+        ],
+        "__version" : 1
+      }
+    }
+  ],
+  "__version" : 1
+}

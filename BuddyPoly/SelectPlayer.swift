@@ -28,6 +28,7 @@ struct SelectPlayer: View {
             VStack{
                 Text("PLAYER COUNT")
                     .font(.largeTitle)
+                    .foregroundColor(.black)
                 Text("\(Int(playerCount))")
                     .font(.title)
                 Slider(value: $playerCount, in: 2...4)
@@ -48,7 +49,7 @@ struct SelectPlayer: View {
             .background(.white)
             .opacity(opc)
             .cornerRadius(20)
-            .navigationBarTitle("My View")
+//            .navigationBarTitle("My View")
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading:
                                     Button(action: {
@@ -69,7 +70,7 @@ struct SelectPlayer: View {
                         ForEach(0..<Int(playerCount), id: \.self) { index in
                             ZStack() {
                                 Rectangle()
-                                    .frame(width: 300, height: 170)
+                                    .frame(width: 300, height: 100)
                                     .cornerRadius(25)
                                     .foregroundColor(.green)
                                     .opacity(0.3)
@@ -105,7 +106,7 @@ struct SelectPlayer: View {
                     
                     //            .hidden()
                 }
-                    .frame(width: 500, height: 500)
+                    .frame(width: 500, height: 400)
                     .background(.white)
                     .cornerRadius(20)
 //                .offset(x:-30)

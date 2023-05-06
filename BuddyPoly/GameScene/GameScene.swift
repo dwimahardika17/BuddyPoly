@@ -44,10 +44,11 @@ class Player {
 }
 
 class GameScene: SKScene {
-    
+    let boardNode = SKNode()
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     private var boardNodes = [SKNode]()
+    private var pathNodes = [CGPoint]()
     private var diceButton: SKSpriteNode?
     private var testDiceButton: SKSpriteNode?
     private var pieceNode: SKSpriteNode?
@@ -254,8 +255,7 @@ class GameScene: SKScene {
         background.zPosition = -1
         addChild(background)
         
-        let boardNode = SKNode()
-        addChild(boardNode)
+                addChild(boardNode)
         
         let tileWidth: CGFloat = 50
         let tileHeight: CGFloat = 50
@@ -294,11 +294,41 @@ class GameScene: SKScene {
         boardNodes[23].position = CGPoint(x: -40 , y: 180) //RandomChallenge
         boardNodes[24].position = CGPoint(x: 30 , y: 90) //LetGo
         
+        for _ in 0..<25 {
+            let tileNode = CGPoint(x: 0, y: 0)
+            pathNodes.append(tileNode)
+        }
+        pathNodes[0] = CGPoint(x: 70, y: -100)
+        pathNodes[1] = CGPoint(x: 60, y: -85)
+        pathNodes[2] = CGPoint(x: 70, y: -55)
+        pathNodes[3] = CGPoint(x: 100, y: -10)
+        pathNodes[4] = CGPoint(x: 70, y: 60)
+        pathNodes[5] = CGPoint(x: 20, y: 120)
+        pathNodes[6] = CGPoint(x: -50, y: 80)
+        pathNodes[7] = CGPoint(x: -100, y: 10)
+        pathNodes[8] = CGPoint(x: -110, y: -50)
+        pathNodes[9] = CGPoint(x: -150, y: -190)
+        pathNodes[10] = CGPoint(x: -70, y: -80)
+        pathNodes[11] = CGPoint(x: -80, y: -40)
+        pathNodes[12] = CGPoint(x: -90, y: -20)
+        pathNodes[13] = CGPoint(x: -90, y: 30)
+        pathNodes[14] = CGPoint(x: -85, y: 35)
+        pathNodes[15] = CGPoint(x: -70, y: 70)
+        pathNodes[16] = CGPoint(x: -35, y: 85)
+        pathNodes[17] = CGPoint(x: -10, y: 90)
+        pathNodes[18] = CGPoint(x: 45, y: 95)
+        pathNodes[19] = CGPoint(x: 65, y: 65)
+        pathNodes[20] = CGPoint(x: 90, y: 40)
+        pathNodes[21] = CGPoint(x: 100, y: 20)
+        pathNodes[22] = CGPoint(x: 90, y: -20)
+        pathNodes[23] = CGPoint(x: 80, y: -60)
+        pathNodes[24] = CGPoint(x: 70, y: -90)
+        
         let startingBoardNode = boardNodes[0] // assuming you have an array of board nodes
         
         //--------------------------------------PLAYERS INITIATION------------------------------------------
         for player in 0..<playersDataArray.count {
-            let startingBoardNode = boardNodes[playersDataArray[player].currentSteps]
+            let startingBoardNode = boardNodes[0]
             playersDataArray[player].pieceNode.position = startingBoardNode.position
             playersDataArray[player].pieceNode.isUserInteractionEnabled = true
             playersDataArray[player].pieceNode.name = "gamePiece"
@@ -312,6 +342,7 @@ class GameScene: SKScene {
         diceButton?.size = CGSize(width: 200, height: 200)
         diceButton?.position = CGPoint(x: -180, y: 0)
         addChild(diceButton!)
+                 
         
         // ------------------------------------POP UP CONTAINER----------------------------------------------
         // ada method sendiri di bawah
@@ -324,20 +355,80 @@ class GameScene: SKScene {
     func movePiece(_ pieceNode: SKSpriteNode, toTile tileNode: Int) {
         // Calculate the position of the center of the tile node
         let targetPosition = boardNodes[tileNode].position
-        
+
         // Calculate the duration of the movement based on the distance
         let dx = targetPosition.x - pieceNode.position.x
         let dy = targetPosition.y - pieceNode.position.y
         let distance = sqrt(dx*dx + dy*dy)
         let duration = TimeInterval(distance / 400.0) // adjust 100.0 as needed
-        
+
         // Create an SKAction to move the piece to the target position
         let moveAction = SKAction.move(to: targetPosition, duration: duration)
-        
+
         // Run the move action on the piece node
         pieceNode.run(moveAction)
         myObject.setPosition(position: targetPosition)
-        // Thread.sleep(forTimeInterval: 1)
+    }
+    
+    func movePiece1(_ pieceNode: SKSpriteNode, with diceNumber: Int, currentStep: Int, finalPosition: Int){
+        let path = UIBezierPath()
+        
+//        let position = boardNodes[currentStep]
+//        let newPosition = CGPoint(x:  boardNodes[0].position.x-boardNodes[0].position.x, y:  boardNodes[0].position.y-boardNodes[0].position.y)
+//        pieceNode.position = newPosition
+//        let start = .convert(pieceNode.position, from: pieceNode.parent!)
+//        let position = CGPoint(x: 0, y: 0)
+//        path.move(to: position)
+//        path.addLine(to: CGPoint(x: position.x+pathNodes[1].x, y: position.y+pathNodes[1].y))
+//        path.addLine(to: CGPoint(x: pathNodes[1].x+pathNodes[2].x, y: pathNodes[1].y+pathNodes[2].y))
+//        var newPath = CGPoint(x: pathNodes[1].x+pathNodes[2].x, y: pathNodes[1].y+pathNodes[2].y)
+//        path.addLine(to: CGPoint(x: newPath.x+pathNodes[3].x, y: newPath.y+pathNodes[3].y))
+//        newPath = CGPoint(x: newPath.x+pathNodes[3].x, y: newPath.y+pathNodes[3].y)
+//        path.addLine(to: CGPoint(x: newPath.x+pathNodes[4].x, y: newPath.y+pathNodes[4].y))
+        
+        let startPosition = CGPoint(x: 0, y: 0)
+        var newPosition = CGPoint(x: 0, y: 0)
+        var pathPosition = currentStep+1
+//        pieceNode.position = newPosition
+        path.move(to: startPosition)
+        if pathPosition == 25 {
+            pathPosition = 0
+            path.addLine(to: CGPoint(x: startPosition.x+pathNodes[pathPosition].x, y: startPosition.y+pathNodes[pathPosition].y))
+            newPosition = CGPoint(x: startPosition.x+pathNodes[pathPosition].x, y: startPosition.y+pathNodes[pathPosition].y)
+        } else {
+            path.addLine(to: CGPoint(x: startPosition.x+pathNodes[pathPosition].x, y: startPosition.y+pathNodes[pathPosition].y))
+            newPosition = CGPoint(x: startPosition.x+pathNodes[pathPosition].x, y: startPosition.y+pathNodes[pathPosition].y)
+        }
+//        pathPosition+=1
+        for step in 1..<diceNumber {
+            if pathPosition == 24 {
+
+                path.addLine(to: CGPoint(x: newPosition.x+pathNodes[0].x, y: newPosition.y+pathNodes[0].y))
+                newPosition = CGPoint(x: newPosition.x+pathNodes[0].x, y: newPosition.y+pathNodes[0].y)
+                pathPosition = 0
+            } else {
+
+
+            path.addLine(to: CGPoint(x: newPosition.x+pathNodes[pathPosition+1].x, y: newPosition.y+pathNodes[pathPosition+1].y))
+            newPosition = CGPoint(x: newPosition.x+pathNodes[pathPosition+1].x, y: newPosition.y+pathNodes[pathPosition+1].y)
+            }
+            pathPosition+=1
+        }
+        
+//        var newPosition = CGPoint(x: 0, y: 0)
+//        path.move(to: newPosition)
+//        for step in 1..<diceNumber+1 {
+//            path.addLine(to: CGPoint(x: newPosition.x+80, y: newPosition.y-85))
+//            newPosition = CGPoint(x: newPosition.x+80, y: newPosition.y-85)
+//
+//        }
+        
+//        path.close()
+        let moveAction = SKAction.follow(path.cgPath, speed: 500)
+        
+        pieceNode.run(moveAction)
+        let targetPosition = boardNodes[finalPosition].position
+        myObject.setPosition(position: targetPosition)
     }
     
     func presentSwiftUIView() {
@@ -383,25 +474,20 @@ class GameScene: SKScene {
                 let diceButtonTexture = SKTexture(imageNamed: "dice\(diceNumber)")
                 self?.diceButton?.run(SKAction.setTexture(diceButtonTexture), completion: { [self] in
                     if count == 6 {
-                        self!.diceNumberFix = diceNumber
+                        self!.diceNumberFix = 5
+                        var startPosition = playersDataArray[self!.currentPlayerIndex].currentSteps
                         var move = playersDataArray[self!.currentPlayerIndex].currentSteps + self!.diceNumberFix//
                         playersDataArray[self!.currentPlayerIndex].currentSteps = move
                         
                         if move >= 25 {
                             move = move - 25
                             currentPlayer.currentPoin = currentPlayer.currentPoin + 150
+                            playersDataArray[self!.currentPlayerIndex].currentSteps = move
+                            var startPosition = playersDataArray[self!.currentPlayerIndex].currentSteps
+
                         }
-                        self!.movePiece(currentPlayer.pieceNode, toTile: move)
-                        //                         if cardArray[move].cardChallengesType == "SafeHouse" {
-                        //                             self!.skipCount -= 1
-                        //                             if self!.skipCount != 0 {
-                        //                                 self!.movePiece(currentPlayer.pieceNode, toTile: move)
-                        //                             }
-                        //                             else {
-                        //                                 print("berhasil kelewat")
-                        //                             }
-                        //
-                        //                         }
+                        self!.movePiece1(currentPlayer.pieceNode, with: self!.diceNumberFix, currentStep: startPosition, finalPosition: move)
+                                                 
                         //                         else {
                         //                             self!.movePiece(currentPlayer.pieceNode, toTile: move)
                         //                         }
@@ -1011,7 +1097,7 @@ class GameScene: SKScene {
         var objPosition = myObject.objPosition
         playersDataArray[move].currentSteps
         
-        if ((objPosition.x == 510 && objPosition.y == 120) || (objPosition.x == 70 && objPosition.y == -150) || (objPosition.x == 450 && objPosition.y == -120) || (objPosition.x == 210 && objPosition.y == 60) || (objPosition.x == -425 && objPosition.y == 135) || (objPosition.x == -170 && objPosition.y == 260)) && countShown == 0 {
+        if ((objPosition.x == 510 && objPosition.y == 120) || (objPosition.x == 70 && objPosition.y == -150) || (objPosition.x == 410 && objPosition.y == -100) || (objPosition.x == 210 && objPosition.y == 60) || (objPosition.x == -425 && objPosition.y == 135) || (objPosition.x == -170 && objPosition.y == 260)) && countShown == 0 {
 
             challengeName = "2 Truth 1 Lie"
             let alertController = UIAlertController(title: "YOU LANDED ON", message: challengeName, preferredStyle: .alert)
@@ -1032,8 +1118,9 @@ class GameScene: SKScene {
             
             countShown = 1
             
-        } else if ((objPosition.x == 470 && objPosition.y == 0) || (objPosition.x == 280 && objPosition.y == -170) || (objPosition.x == -10 && objPosition.y == -210) || (objPosition.x == -180 && objPosition.y == -270) || (objPosition.x == -270 && objPosition.y == 240) || (objPosition.x == -470 && objPosition.y == 40)) && countShown == 0 {
+        } else if ((objPosition.x == 430 && objPosition.y == 20) || (objPosition.x == 240 && objPosition.y == -150) || (objPosition.x == -10 && objPosition.y == -210) || (objPosition.x == -180 && objPosition.y == -270) || (objPosition.x == -270 && objPosition.y == 240) || (objPosition.x == -470 && objPosition.y == 40 || (playersDataArray[1].currentSteps == 2))) && countShown == 0 {
             challengeName = "Would You Rather"
+            print("would you")
             let alertController = UIAlertController(title: "YOU LANDED ON", message: challengeName, preferredStyle: .alert)
             
             let yesAction = UIAlertAction(title: "Buy", style: .default) { [weak self] (_) in
@@ -1051,7 +1138,7 @@ class GameScene: SKScene {
             view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
             
             countShown = 1
-        } else if ((objPosition.x == 420 && objPosition.y == 80) || (objPosition.x == 60 && objPosition.y == -130) || (objPosition.x == -270 && objPosition.y == -240) || (objPosition.x == -355 && objPosition.y == -205) || (objPosition.x == -80 && objPosition.y == 240)) && countShown == 0 {
+        } else if ((objPosition.x == 380 && objPosition.y == 100) || (objPosition.x == 60 && objPosition.y == -130) || (objPosition.x == -270 && objPosition.y == -240) || (objPosition.x == -355 && objPosition.y == -205) || (objPosition.x == -80 && objPosition.y == 240)) && countShown == 0 {
             challengeName = "Truth or Dare"
             let alertController = UIAlertController(title: "YOU LANDED ON", message: challengeName, preferredStyle: .alert)
             
@@ -1071,24 +1158,31 @@ class GameScene: SKScene {
             view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
             
             countShown = 1
-        } else if ((objPosition.x == 380 && objPosition.y == -180) || (objPosition.x == 320 && objPosition.y == 110) || (objPosition.x == -90 && objPosition.y == -250) || (objPosition.x == -425 && objPosition.y == -135) || (objPosition.x == -360 && objPosition.y == 200) || (objPosition.x == 10 && objPosition.y == 180)) && countShown == 0 {
+        } else if ((objPosition.x == 340 && objPosition.y == -160) || (objPosition.x == 280 && objPosition.y == 110) || (objPosition.x == -90 && objPosition.y == -250) || (objPosition.x == -425 && objPosition.y == -135) || (objPosition.x == -360 && objPosition.y == 200) || (objPosition.x == 10 && objPosition.y == 180)) && countShown == 0 {
             self.addChallengePopUp()   //challenge
             countShown = 1
         } else if ((objPosition.x == 190 && objPosition.y == -110)) && countShown == 0 {
             print("Nyampe Safe House")  //safe house
             countShown = 1
-        } else if ((objPosition.x == -460 && objPosition.y == -50)) && countShown == 0 {
+        } else if ((objPosition.x == -500 && objPosition.y == -50)) && countShown == 0 {
             print("Nyampe Force Move")  //Force Move
             countShown = 1
             let randomPosition = Int.random(in: 0...24)
-            let randomPlayer = Int.random(in: 0...playersDataArray.count)
-            movePiece(playersDataArray[randomPlayer].pieceNode, toTile: randomPosition)
+            let randomPlayer = Int.random(in: 0...playersDataArray.count-1)
+            playersDataArray[randomPlayer].currentSteps=randomPosition
+            
+            self.movePiece(playersDataArray[randomPlayer].pieceNode, toTile: randomPosition)
+            playersDataArray[randomPlayer].currentSteps=randomPosition
         } else if ((objPosition.x == 70 && objPosition.y == 90)) && countShown == 0 {
             print("Nyampe Let Go")  //Let Go
             countShown = 1
-        } else if ((objPosition.x == 130 && objPosition.y == -10)) && countShown == 0 {
+        } else if ((objPosition.x == 110 && objPosition.y == -10)) && countShown == 0 {
             print("Nyampe Start")  //Start
             countShown = 1
+            for i in 0...playersDataArray.count-1{
+                self.movePiece(playersDataArray[i].pieceNode, toTile: 0)
+                playersDataArray[i].currentSteps=0
+            }
             presentSwiftUIView()
         }
     }
