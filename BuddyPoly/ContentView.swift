@@ -12,7 +12,7 @@ struct ContentView: View {
         NavigationView {
             VStack {
                
-                Image("logo")
+                Image("Logo 1")
                     .resizable()
 //                    .imageScale(.large)
                     .foregroundColor(.accentColor)

@@ -31,6 +31,7 @@ struct SelectPlayer: View {
                     .foregroundColor(.black)
                 Text("\(Int(playerCount))")
                     .font(.title)
+                    .foregroundColor(.black)
                 Slider(value: $playerCount, in: 2...4)
                     .frame(width: 350)
                     .disabled(slider)
@@ -70,7 +71,7 @@ struct SelectPlayer: View {
                         ForEach(0..<Int(playerCount), id: \.self) { index in
                             ZStack() {
                                 Rectangle()
-                                    .frame(width: 300, height: 100)
+                                    .frame(width: 300, height: 200)
                                     .cornerRadius(25)
                                     .foregroundColor(.green)
                                     .opacity(0.3)
@@ -79,13 +80,17 @@ struct SelectPlayer: View {
                                 VStack() {
                                     Image("playerfix\(index+1)")
                                     TextField("Player \(index + 1)", text: $playerNames[index])
-                                        .frame(minWidth: 100)
+                                        .frame(width: 150)
+                                        .background(.white)
                                         .cornerRadius(10)
                                         .multilineTextAlignment(.center)
+                                        .foregroundColor(.black)
                                 }
                             }
+//                            .frame(width: 500, height: 500)
                         }
                     }
+//                    .frame(width: 500, height: 500)
                     Image("Start")
                         .resizable()
                         .frame(width: 100, height: 50)
@@ -106,7 +111,7 @@ struct SelectPlayer: View {
                     
                     //            .hidden()
                 }
-                    .frame(width: 500, height: 400)
+                    .frame(width: 500, height: 500)
                     .background(.white)
                     .cornerRadius(20)
 //                .offset(x:-30)

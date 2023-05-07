@@ -53,6 +53,7 @@ class GameScene: SKScene {
     public var diceNumber: Int = 1
     public var diceNumberFix: Int = 1
     public var coin: Int = 750
+    private var cameraCount: Bool = false
     
     //    public var players = [Player]()
     public var currentPlayerIndex = 0
@@ -138,30 +139,31 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         playerInfoBgTexture1 = SKSpriteNode(imageNamed: "background_player_info_selected")
-        playerInfoBgTexture1.position = CGPoint(x: -(view.bounds.size.width/2)+100, y: view.bounds.size.height/2 - 30 )
+        playerInfoBgTexture1.position = CGPoint(x: -(view.bounds.size.width/2)+170, y: view.bounds.size.height/2 - 120 )
         playerInfoBgTexture1.zPosition = -50
-        playerInfoBgTexture1.size = CGSize(width: 348, height: 150)
+        playerInfoBgTexture1.size = CGSize(width: 300, height: 140)
         addChild(playerInfoBgTexture1)
         
+        
         let playerInfoAva1 = SKSpriteNode(imageNamed: "playerfix1")
-        playerInfoAva1.position = CGPoint(x: -(view.bounds.size.width/2)-10, y: view.bounds.size.height/2 - 30)
-        playerInfoAva1.size = CGSize(width: 82, height: 97)
+        playerInfoAva1.position = CGPoint(x: -(view.bounds.size.width/2)+70, y: view.bounds.size.height/2 - 120)
+        playerInfoAva1.size = CGSize(width: 65, height: 78)
         addChild(playerInfoAva1)
         
         let coin1 = SKSpriteNode(imageNamed: "coin")
-        coin1.position = CGPoint(x: -(view.bounds.size.width/2)+80, y: view.bounds.size.height/2 - 50 )
+        coin1.position = CGPoint(x: -(view.bounds.size.width/2)+150, y: view.bounds.size.height/2 - 140 )
         coin1.size = CGSize(width: 51, height: 46)
         addChild(coin1)
         
         let playerName1 = SKLabelNode()
-        playerName1.position = CGPoint(x: -(view.bounds.size.width/2)+120, y: view.bounds.size.height/2 - 10)
+        playerName1.position = CGPoint(x: -(view.bounds.size.width/2)+190, y: view.bounds.size.height/2 - 110)
         playerName1.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         playerName1.fontName = "AvenirNext-Bold"
-        playerName1.text = "PLAYER 1"
+        playerName1.text = "\(playersDataArray[0].playersName)"
         playerInfoBgTexture1.zPosition = -3
         addChild(playerName1)
         
-        playerCoin1.position = CGPoint(x: -(view.bounds.size.width/2)+150, y: view.bounds.size.height/2 - 65)
+        playerCoin1.position = CGPoint(x: -(view.bounds.size.width/2)+220, y: view.bounds.size.height/2 - 150)
         playerCoin1.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         playerCoin1.fontName = "AvenirNext-Bold"
         playerCoin1.text = "\(playersDataArray[0].currentPoin)"
@@ -169,60 +171,62 @@ class GameScene: SKScene {
 //        current state player 2
         
         playerInfoBgTexture2 = SKSpriteNode(imageNamed: "background_player_info")
-        playerInfoBgTexture2.position = CGPoint(x: (view.bounds.size.width/2)+100-200, y: view.bounds.size.height/2 - 30 )
-        playerInfoBgTexture2.size = CGSize(width: 348, height: 150)
+        playerInfoBgTexture2.position = CGPoint(x: (view.bounds.size.width/2)-170, y: view.bounds.size.height/2 - 120 )
+        playerInfoBgTexture2.size = CGSize(width: 300, height: 140)
         playerInfoBgTexture2.zPosition = -1
         addChild(playerInfoBgTexture2)
         
         let playerInfoAva2 = SKSpriteNode(imageNamed: "playerfix2")
-        playerInfoAva2.position = CGPoint(x: (view.bounds.size.width/2)-10-200, y: view.bounds.size.height/2 - 30)
-        playerInfoAva2.size = CGSize(width: 82, height: 97)
+        playerInfoAva2.position = CGPoint(x: (view.bounds.size.width/2)-260, y: view.bounds.size.height/2 - 120)
+        playerInfoAva2.size = CGSize(width: 65, height: 78)
         addChild(playerInfoAva2)
         
+//        260 - 70 = 190
+        
         let coin2 = SKSpriteNode(imageNamed: "coin")
-        coin2.position = CGPoint(x: (view.bounds.size.width/2)+80-200, y: view.bounds.size.height/2 - 50 )
+        coin2.position = CGPoint(x: (view.bounds.size.width/2)-170, y: view.bounds.size.height/2 - 140  )
         coin2.size = CGSize(width: 51, height: 46)
         addChild(coin2)
         
         let playerName2 = SKLabelNode()
-        playerName2.position = CGPoint(x: (view.bounds.size.width/2)+120-200, y: view.bounds.size.height/2 - 10)
+        playerName2.position = CGPoint(x: (view.bounds.size.width/2)-130, y: view.bounds.size.height/2 - 110)
         playerName2.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         playerName2.fontName = "AvenirNext-Bold"
-        playerName2.text = "PLAYER 2"
+        playerName2.text = "\(playersDataArray[1].playersName)"
         addChild(playerName2)
         
-        playerCoin2.position = CGPoint(x: (view.bounds.size.width/2)+150-200, y: view.bounds.size.height/2 - 65)
+        playerCoin2.position = CGPoint(x: (view.bounds.size.width/2)-100, y: view.bounds.size.height/2 - 150)
         playerCoin2.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         playerCoin2.text = "\(playersDataArray[1].currentPoin)"
         playerCoin2.fontName = "AvenirNext-Bold"
         addChild(playerCoin2)
-
+        
 //        current state 3
         
         playerInfoBgTexture3 = SKSpriteNode(imageNamed: "background_player_info")
-        playerInfoBgTexture3.position = CGPoint(x: (view.bounds.size.width/2)+100-200, y: -(view.bounds.size.height/2 - 30 ))
+        playerInfoBgTexture3.position = CGPoint(x: (view.bounds.size.width/2)-170, y: -(view.bounds.size.height/2 - 120))
         playerInfoBgTexture3.zPosition = -2
-        playerInfoBgTexture3.size = CGSize(width: 348, height: 150)
+        playerInfoBgTexture3.size = CGSize(width: 300, height: 140)
 //        addChild(playerInfoBgTexture3)
         
         let playerInfoAva3 = SKSpriteNode(imageNamed: "playerfix3")
-        playerInfoAva3.position = CGPoint(x: (view.bounds.size.width/2)-10-200, y: -(view.bounds.size.height/2 - 30))
-        playerInfoAva3.size = CGSize(width: 82, height: 97)
+        playerInfoAva3.position = CGPoint(x: (view.bounds.size.width/2)-260, y: -(view.bounds.size.height/2 - 120))
+        playerInfoAva3.size = CGSize(width: 65, height: 78)
 //        addChild(playerInfoAva3)
         
         let coin3 = SKSpriteNode(imageNamed: "coin")
-        coin3.position = CGPoint(x: (view.bounds.size.width/2)+80-200, y: -(view.bounds.size.height/2 - 10 ))
+        coin3.position = CGPoint(x: (view.bounds.size.width/2)-170, y: -(view.bounds.size.height/2 - 100))
         coin3.size = CGSize(width: 51, height: 46)
 //        addChild(coin3)
         
         let playerName3 = SKLabelNode()
-        playerName3.position = CGPoint(x: (view.bounds.size.width/2)+120-200, y: -(view.bounds.size.height/2 - 40))
+        playerName3.position = CGPoint(x: (view.bounds.size.width/2)-130, y: -(view.bounds.size.height/2 - 130))
         playerName3.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         playerName3.fontName = "AvenirNext-Bold"
-        playerName3.text = "PLAYER 3"
+        
 //        addChild(playerName3)
         
-        playerCoin3.position = CGPoint(x: (view.bounds.size.width/2)+150-200, y: -(view.bounds.size.height/2+5))
+        playerCoin3.position = CGPoint(x: (view.bounds.size.width/2)-100, y: -(view.bounds.size.height/2 - 90))
         playerCoin3.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         
         playerCoin3.fontName = "AvenirNext-Bold"
@@ -233,29 +237,29 @@ class GameScene: SKScene {
 //        playerInfoBgTexture4 = SKTexture(imageNamed: "background_player_info")
 
         playerInfoBgTexture4 = SKSpriteNode(imageNamed: "background_player_info")
-        playerInfoBgTexture4.position = CGPoint(x: -(view.bounds.size.width/2)+100, y: -(view.bounds.size.height/2-30))
+        playerInfoBgTexture4.position = CGPoint(x: -(view.bounds.size.width/2)+170, y: -(view.bounds.size.height/2 - 120 ))
         playerInfoBgTexture4.zPosition = -10
-        playerInfoBgTexture4.size = CGSize(width: 348, height: 150)
+        playerInfoBgTexture4.size = CGSize(width: 300, height: 140)
 //        addChild(playerInfoBgTexture4)
         
         let playerInfoAva4 = SKSpriteNode(imageNamed: "playerfix4")
-        playerInfoAva4.position = CGPoint(x: -((view.bounds.size.width/2)+10), y: -(view.bounds.size.height/2 - 30))
-        playerInfoAva4.size = CGSize(width: 82, height: 97)
+        playerInfoAva4.position = CGPoint(x: -(view.bounds.size.width/2)+70, y: -(view.bounds.size.height/2 - 120))
+        playerInfoAva4.size = CGSize(width: 65, height: 78)
 //        addChild(playerInfoAva4)
         
         let coin4 = SKSpriteNode(imageNamed: "coin")
-        coin4.position = CGPoint(x: -((view.bounds.size.width/2)+80-170), y: -(view.bounds.size.height/2 - 10 ))
+        coin4.position = CGPoint(x: -(view.bounds.size.width/2)+150, y: -(view.bounds.size.height/2 - 100))
         coin4.size = CGSize(width: 51, height: 46)
 //        addChild(coin4)
         
         let playerName4 = SKLabelNode()
-        playerName4.position = CGPoint(x: -((view.bounds.size.width/2)-130), y: -(view.bounds.size.height/2 - 40))
+        playerName4.position = CGPoint(x: -(view.bounds.size.width/2)+190, y: -(view.bounds.size.height/2 - 130))
         playerName4.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
-        playerName4.text = "PLAYER 4"
+        
         playerName4.fontName = "AvenirNext-Bold"
 //        addChild(playerName4)
         
-        playerCoin4.position = CGPoint(x: -((view.bounds.size.width/2)-160), y: -(view.bounds.size.height/2+5))
+        playerCoin4.position = CGPoint(x: -(view.bounds.size.width/2)+220, y: -(view.bounds.size.height/2 - 90))
         playerCoin4.fontName = "AvenirNext-Bold"
         playerCoin4.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         
@@ -268,6 +272,7 @@ class GameScene: SKScene {
         playerBgArray.append(playerInfoBgTexture2)
 //        playerCoinTextArray.append(playerCoin3)
 //        playerCoinTextArray.append(playerCoin4)
+        
         
         if playersDataArray.count == 4 {
             playerCoinTextArray.append(playerCoin3)
@@ -286,6 +291,8 @@ class GameScene: SKScene {
             addChild(playerInfoBgTexture3)
             playerCoin4.text = "\(playersDataArray[3].currentPoin)"
             playerCoin3.text = "\(playersDataArray[2].currentPoin)"
+            playerName3.text = "\(playersDataArray[2].playersName)"
+            playerName4.text = "\(playersDataArray[3].playersName)"
         }
         else if playersDataArray.count == 3 {
             playerCoinTextArray.append(playerCoin3)
@@ -296,10 +303,11 @@ class GameScene: SKScene {
             addChild(playerInfoAva3)
             addChild(playerInfoBgTexture3)
             playerCoin3.text = "\(playersDataArray[2].currentPoin)"
+            playerName3.text = "\(playersDataArray[2].playersName)"
         }
         
         //-----------------------------------BACKGROUND INITIATION--------------------------------------
-        let background = SKSpriteNode(imageNamed: "mini2")
+        let background = SKSpriteNode(imageNamed: "newbgfix")
         background.position = CGPoint(x: 0, y: 0)
         background.size = self.size
         background.zPosition = -200
@@ -314,66 +322,68 @@ class GameScene: SKScene {
         
         //------------------------------------BOARD CARD INITIATION--------------------------------------
         for _ in 0..<25 {
-            let tileNode = SKSpriteNode(color: .black, size: CGSize(width: tileWidth, height: tileHeight))
+            let tileNode = SKSpriteNode(color: transparant, size: CGSize(width: tileWidth, height: tileHeight))
             boardNode.addChild(tileNode)
             boardNodes.append(tileNode)
         }
         
-        boardNodes[0].position = CGPoint(x: 130 , y: -10) //START
-        boardNodes[1].position = CGPoint(x: 190 , y: -110) //HOME
-        boardNodes[2].position = CGPoint(x: 280 , y: -170) //WY
-        boardNodes[3].position = CGPoint(x: 380 , y: -180) //RandomCHallenge
-        boardNodes[4].position = CGPoint(x: 450 , y: -120) //2T1L
-        boardNodes[5].position = CGPoint(x: 470 , y: 0) // WY
-        boardNodes[6].position = CGPoint(x: 420 , y: 80) //ToD
-        boardNodes[7].position = CGPoint(x: 320 , y: 110) //RandomChallenge
-        boardNodes[8].position = CGPoint(x: 210 , y: 60) //2T1L
-        boardNodes[9].position = CGPoint(x: 60 , y: -130) //TOD
-        boardNodes[10].position = CGPoint(x: -10 , y: -210) //WY
-        boardNodes[11].position = CGPoint(x: -90 , y: -250) //RandomChallenge
-        boardNodes[12].position = CGPoint(x: -180 , y: -270) //WY
-        boardNodes[13].position = CGPoint(x: -270 , y: -240) //ToD
-        boardNodes[14].position = CGPoint(x: -355 , y: -205) //ToD
-        boardNodes[15].position = CGPoint(x: -425 , y: -135) //RandomChallenge
-        boardNodes[16].position = CGPoint(x: -460 , y: -50) //ForceMove
-        boardNodes[17].position = CGPoint(x: -470 , y: 40) //2T1l
-        boardNodes[18].position = CGPoint(x: -425 , y: 135) //2T1L
-        boardNodes[19].position = CGPoint(x: -360 , y: 200) //RandomChallenge
-        boardNodes[20].position = CGPoint(x: -270 , y: 240) //WY
-        boardNodes[21].position = CGPoint(x: -170 , y: 260) //2T1L
-        boardNodes[22].position = CGPoint(x: -80 , y: 240) //ToD
-        boardNodes[23].position = CGPoint(x: 10 , y: 180) //RandomChallenge
-        boardNodes[24].position = CGPoint(x: 70 , y: 90) //LetGo
+        boardNodes[0].position = CGPoint(x: 110 , y: -10) //START
+        boardNodes[1].position = CGPoint(x: 170 , y: -100) //HOME
+        boardNodes[2].position = CGPoint(x: 240 , y: -150) //WY
+        boardNodes[3].position = CGPoint(x: 330 , y: -150) //RandomCHallenge
+        boardNodes[4].position = CGPoint(x: 400 , y: -100) //2T1L
+        boardNodes[5].position = CGPoint(x: 410 , y: -10) // WY
+        boardNodes[6].position = CGPoint(x: 370 , y: 70) //ToD
+        boardNodes[7].position = CGPoint(x: 280 , y: 90) //RandomChallenge
+        boardNodes[8].position = CGPoint(x: 190 , y: 50) //2T1L
+        boardNodes[9].position = CGPoint(x: 50 , y: -110) //TOD
+        boardNodes[10].position = CGPoint(x: -5 , y: -180) //WY
+        boardNodes[11].position = CGPoint(x: -80 , y: -220) //RandomChallenge
+        boardNodes[12].position = CGPoint(x: -160 , y: -230) //WY
+        boardNodes[13].position = CGPoint(x: -240 , y: -210) //ToD
+        boardNodes[14].position = CGPoint(x: -315 , y: -180) //ToD
+        boardNodes[15].position = CGPoint(x: -375 , y: -120) //RandomChallenge
+        boardNodes[16].position = CGPoint(x: -410 , y: -40) //ForceMove
+        boardNodes[17].position = CGPoint(x: -420 , y: 40) //2T1l
+        boardNodes[18].position = CGPoint(x: -385 , y: 120) //2T1L
+        boardNodes[19].position = CGPoint(x: -315 , y: 170) //RandomChallenge
+        boardNodes[20].position = CGPoint(x: -240 , y: 210) //WY
+        boardNodes[21].position = CGPoint(x: -150 , y: 230) //2T1L
+        boardNodes[22].position = CGPoint(x: -60 , y: 210) //ToD
+        boardNodes[23].position = CGPoint(x: 10 , y: 160) //RandomChallenge
+        boardNodes[24].position = CGPoint(x: 70 , y: 80) //LetGo
         
         for _ in 0..<25 {
             let tileNode = CGPoint(x: 0, y: 0)
             pathNodes.append(tileNode)
         }
+        
         pathNodes[0] = CGPoint(x: 70, y: -100)
-        pathNodes[1] = CGPoint(x: 60, y: -85)
-        pathNodes[2] = CGPoint(x: 70, y: -55)
-        pathNodes[3] = CGPoint(x: 100, y: -10)
-        pathNodes[4] = CGPoint(x: 70, y: 60)
-        pathNodes[5] = CGPoint(x: 20, y: 120)
-        pathNodes[6] = CGPoint(x: -50, y: 80)
-        pathNodes[7] = CGPoint(x: -100, y: 10)
-        pathNodes[8] = CGPoint(x: -110, y: -50)
-        pathNodes[9] = CGPoint(x: -150, y: -190)
-        pathNodes[10] = CGPoint(x: -70, y: -80)
-        pathNodes[11] = CGPoint(x: -80, y: -40)
-        pathNodes[12] = CGPoint(x: -90, y: -20)
-        pathNodes[13] = CGPoint(x: -90, y: 30)
-        pathNodes[14] = CGPoint(x: -85, y: 35)
-        pathNodes[15] = CGPoint(x: -70, y: 70)
-        pathNodes[16] = CGPoint(x: -35, y: 85)
-        pathNodes[17] = CGPoint(x: -10, y: 90)
-        pathNodes[18] = CGPoint(x: 45, y: 95)
-        pathNodes[19] = CGPoint(x: 65, y: 65)
-        pathNodes[20] = CGPoint(x: 90, y: 40)
-        pathNodes[21] = CGPoint(x: 100, y: 20)
+        pathNodes[1] = CGPoint(x: 60, y: -90)
+        pathNodes[2] = CGPoint(x: 70, y: -50)
+        pathNodes[3] = CGPoint(x: 90, y: 0)
+        pathNodes[4] = CGPoint(x: 70, y: 50)
+        pathNodes[5] = CGPoint(x: 10, y: 90)
+        pathNodes[6] = CGPoint(x: -40, y: 80)
+        pathNodes[7] = CGPoint(x: -90, y: 20)
+        pathNodes[8] = CGPoint(x: -90, y: -40)
+        pathNodes[9] = CGPoint(x: -140, y: -160)
+        pathNodes[10] = CGPoint(x: -55, y: -70)
+        pathNodes[11] = CGPoint(x: -75, y: -40)
+        pathNodes[12] = CGPoint(x: -80, y: -10)
+        pathNodes[13] = CGPoint(x: -80, y: 20)
+        pathNodes[14] = CGPoint(x: -75, y: 30)
+        pathNodes[15] = CGPoint(x: -60, y: 60)
+        pathNodes[16] = CGPoint(x: -35, y: 80)
+        pathNodes[17] = CGPoint(x: -10, y: 80)
+        pathNodes[18] = CGPoint(x: 35, y: 80)
+        pathNodes[19] = CGPoint(x: 70, y: 50)
+        pathNodes[20] = CGPoint(x: 75, y: 40)
+        pathNodes[21] = CGPoint(x: 90, y: 20)
         pathNodes[22] = CGPoint(x: 90, y: -20)
-        pathNodes[23] = CGPoint(x: 80, y: -60)
-        pathNodes[24] = CGPoint(x: 70, y: -90)
+        pathNodes[23] = CGPoint(x: 70, y: -60)
+        pathNodes[24] = CGPoint(x: 60, y: -90)
+        
         
         //--------------------------------------PLAYERS INITIATION------------------------------------------
         for player in 0..<playersDataArray.count {
@@ -387,8 +397,8 @@ class GameScene: SKScene {
         // ------------------------------------DICE INITIATION----------------------------------------------
         let diceButtonTexture = SKTexture(imageNamed: "dice\(diceNumber)")
         diceButton = SKSpriteNode(texture: diceButtonTexture)
-        diceButton?.size = CGSize(width: 200, height: 200)
-        diceButton?.position = CGPoint(x: -180, y: 0)
+        diceButton?.size = CGSize(width: 170, height: 170)
+        diceButton?.position = CGPoint(x: -160, y: 0)
         addChild(diceButton!)
         
         addOverlay()
@@ -452,11 +462,11 @@ class GameScene: SKScene {
     }
     
     func presentSwiftUIView() {
-//    let swiftUIView = Camera()
-//        if let viewController = self.view?.window?.rootViewController {
-//            let hostingController = UIHostingController(rootView: swiftUIView)
-//            viewController.present(hostingController, animated: true, completion: nil)
-//        }
+    let swiftUIView = Camera()
+        if let viewController = self.view?.window?.rootViewController {
+            let hostingController = UIHostingController(rootView: swiftUIView)
+            viewController.present(hostingController, animated: true, completion: nil)
+        }
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -471,6 +481,7 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
+        cameraCount = true
         
         if diceButton?.contains(touchLocation) == true && diceClicked == false {
             diceClicked = true
@@ -491,7 +502,7 @@ class GameScene: SKScene {
                 let diceButtonTexture = SKTexture(imageNamed: "dice\(diceNumber)")
                 self?.diceButton?.run(SKAction.setTexture(diceButtonTexture), completion: { [self] in
                     if count == 6 {
-                        self!.diceNumberFix = 4
+                        self!.diceNumberFix = 5
                         var startPosition = playersDataArray[self!.currentPlayerIndex].currentSteps
                         var move = playersDataArray[self!.currentPlayerIndex].currentSteps + self!.diceNumberFix//
 //                        var move = playersDataArray[self!.currentPlayerIndex].currentSteps + 4
@@ -541,9 +552,12 @@ class GameScene: SKScene {
                 diceClicked = true
                 if cardArray[move].cardChallengesType != "Truth or Dare" {
                     if cardArray[move].correctPrompt == selectedPrompt {
+                        
                         addBuyOfferPopUp(challengeName: "Do you want to acquisition?", buyCost: cardArray[cardNode].cost+20)
                     } else {
                         diceClicked = false
+                        wrongAnswerView()
+//                        coinReductionView()
                         //ke-skip karena salah jawab prompt
                         //poin berkurang
                     }
@@ -734,6 +748,43 @@ class GameScene: SKScene {
             removePopUpContainer()
         }
 
+    }
+    
+    func wrongAnswerView() {
+        let wrongAnswer = SKSpriteNode(imageNamed: "wrong_answer")
+        wrongAnswer.position = CGPoint(x: 0, y: 0)
+        addChild(wrongAnswer)
+        
+        let waitAction = SKAction.wait(forDuration: 10)
+        let removeAction = SKAction.removeFromParent()
+        let sequenceAction = SKAction.sequence([waitAction, removeAction])
+        
+        wrongAnswer.run(sequenceAction)
+    }
+    func coinReductionView() {
+        let coinReduction = SKSpriteNode(imageNamed: "coin_reduction")
+        coinReduction.zPosition = 50
+        coinReduction.position = CGPoint(x: 0, y: 0)
+        addChild(coinReduction)
+        
+        let waitAction = SKAction.wait(forDuration: 1.5)
+        let removeAction = SKAction.removeFromParent()
+        let sequenceAction = SKAction.sequence([waitAction, removeAction])
+        
+        coinReduction.run(sequenceAction)
+    }
+    
+    func coinAdditionView() {
+        let coinAddition = SKSpriteNode(imageNamed: "coin_addition")
+        coinAddition.zPosition = 50
+        coinAddition.position = CGPoint(x: 0, y: 0)
+        addChild(coinAddition)
+        
+        let waitAction = SKAction.wait(forDuration: 1.5)
+        let removeAction = SKAction.removeFromParent()
+        let sequenceAction = SKAction.sequence([waitAction, removeAction])
+        
+        coinAddition.run(sequenceAction)
     }
     
     func addPopUpContainer() {
@@ -1279,18 +1330,19 @@ class GameScene: SKScene {
     override func didEvaluateActions() {
         let objPosition = myObject.objPosition
         
-        for i in 0...playersDataArray.count {
-            if playersDataArray[i].currentPoin < 0 {
+        for i in 0..<playersDataArray.count {
+            if playersDataArray[i].currentPoin == 0 {
                 // SOMEONE LOSES - GAME SELESAI
                 addLeaderboardPopUp()
             }
         }
         
+        
         if currentPlayerIndex != 0 {
             currentPlayerIndexForPopUp = currentPlayerIndex - 1
         }
         else {
-            currentPlayerIndexForPopUp = 3
+            currentPlayerIndexForPopUp = playersDataArray.count - 1
         }
         
         for i in 0...24 {
@@ -1315,8 +1367,15 @@ class GameScene: SKScene {
                     addBuyOfferPopUp(challengeName: challengeName, buyCost: 150)
                     
                 } else {
+                    cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
+                    playersDataArray[currentPlayerIndexForPopUp].currentPoin -= cardArray[cardNode].cost+20 //check lagi ngurangin berapa di rules
+                    playersDataArray[lastOwnerIndex].currentPoin += cardArray[cardNode].cost+20
+                    for i in 0..<self.playerCoinTextArray.count {
+                        self.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
+                    }
                     onAcquisitionMode = true
                     addPopUpContainer()
+                    
                 }
             }
             countShown = 1
@@ -1333,6 +1392,12 @@ class GameScene: SKScene {
                     addBuyOfferPopUp(challengeName: challengeName, buyCost: 120)
                     
                 } else {
+                    cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
+                    playersDataArray[currentPlayerIndexForPopUp].currentPoin -= cardArray[cardNode].cost+20 //check lagi ngurangin berapa di rules
+                    playersDataArray[lastOwnerIndex].currentPoin += cardArray[cardNode].cost+20
+                    for i in 0..<self.playerCoinTextArray.count {
+                        self.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
+                    }
                     onAcquisitionMode = true
                     addPopUpContainer2()
                 }
@@ -1351,6 +1416,12 @@ class GameScene: SKScene {
                     addBuyOfferPopUp(challengeName: challengeName, buyCost: 150)
                     
                 } else {
+                    cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
+                    playersDataArray[currentPlayerIndexForPopUp].currentPoin -= cardArray[cardNode].cost+20 //check lagi ngurangin berapa di rules
+                    playersDataArray[lastOwnerIndex].currentPoin += cardArray[cardNode].cost+20
+                    for i in 0..<self.playerCoinTextArray.count {
+                        self.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
+                    }
                     onAcquisitionMode = true
                     if cardArray[move].secondPrompt == "DARE" {
                         addPopUpContainer3(title: "DARE")
@@ -1390,9 +1461,10 @@ class GameScene: SKScene {
             print("Force Move!")
             
             let randomPosition = Int.random(in: 0...24)
-            let randomPlayer = Int.random(in: 0...playersDataArray.count-1)
+            let randomPlayer = Int.random(in: 0..<playersDataArray.count)
+            movePiece(playersDataArray[randomPlayer].pieceNode, toTile: randomPosition)
             playersDataArray[randomPlayer].currentSteps=randomPosition
-            
+            print("force move player \(playersDataArray[randomPlayer].playersName) ke board \(randomPosition)")
             countShown = 1
             
         } else if cardArray[cardNode].cardChallengesType == "LG" && countShown == 0 {
@@ -1413,9 +1485,15 @@ class GameScene: SKScene {
             
             challengeName = "Start"
             diceClicked = false
-            
+            for i in 0...playersDataArray.count-1{
+                self.movePiece(playersDataArray[1].pieceNode, toTile: 0)
+                playersDataArray[i].currentSteps=0
+            }
             print("Start!")
-            presentSwiftUIView()
+            if cameraCount == true {
+                presentSwiftUIView()
+            }
+            
             
             countShown = 1
         }
