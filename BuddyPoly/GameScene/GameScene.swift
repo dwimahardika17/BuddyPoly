@@ -1279,7 +1279,7 @@ class GameScene: SKScene {
     override func didEvaluateActions() {
         let objPosition = myObject.objPosition
         
-        for i in 0...3 {
+        for i in 0...playersDataArray.count {
             if playersDataArray[i].currentPoin < 0 {
                 // SOMEONE LOSES - GAME SELESAI
                 addLeaderboardPopUp()
