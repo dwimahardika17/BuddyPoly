@@ -21,6 +21,10 @@ class MyObject {
     
     func setPosition(position: CGPoint) {
         objPosition = position
+        print("Objek diposisikan di \(objPosition)")
+        print("update")
+        print("update indah")
+        print("update yuga")
     }
 }
 
@@ -68,6 +72,8 @@ class GameScene: SKScene {
     private var truthButtonFrame: SKShapeNode?
     private var dareButtonLabel: SKLabelNode?
     private var dareButtonFrame: SKShapeNode?
+    private var mainMenuButtonFrame: SKShapeNode?
+    private var mainMenuButtonLabel: SKLabelNode?
     
     private var skView: SKView?
     
@@ -101,9 +107,25 @@ class GameScene: SKScene {
     
     private var challengeName: String = "Truth or Dare"
     
-    private var textLabel: UILabel?
-    private var textLabel2: UILabel?
-    private var textLabel3: UILabel?
+    private var diceClicked: Bool = false
+    private var buyPopUpAppeared: Bool = false
+    private var todPopUpAppeared: Bool = false
+    private var challengePopUpAppeared: Bool = false
+    private var popUpContainerAppeared: Bool = false
+    private var popUpContainer2Appeared: Bool = false
+    private var popUpContainer3Appeared: Bool = false
+    private var leaderboardPopUpAppeared: Bool = false
+    private var onAcquisitionMode: Bool = false
+    
+    private var overlayNode: SKSpriteNode?
+    
+    private var cardNode : Int = 0
+    private var lastOwnerIndex : Int = 0
+    private var currentPlayerIndexForPopUp : Int = 0
+    private var playerInfoFrame1: SKShapeNode?
+    private var currentCoin1 = SKLabelNode(fontNamed: "HelveticaNeue-Bold")
+    private var playerCoinTextArray = [SKLabelNode]()
+    private var playerBgArray = [SKSpriteNode]()
     
     var playerCoin1 = SKLabelNode()
     var playerCoin2 = SKLabelNode()
@@ -114,34 +136,12 @@ class GameScene: SKScene {
     var playerInfoBgTexture3 = SKSpriteNode()
     var playerInfoBgTexture4 = SKSpriteNode()
     
-    
-//    var jumlahPemain = 2
-    
-    
-    
-    
-    private var playerInfoFrame1: SKShapeNode?
-//    private var currentCoin1: SKLabelNode?
-//    var currentCoin1 = SKLabelNode()
-    var currentCoin1 = SKLabelNode(fontNamed: "HelveticaNeue-Bold")
-//    var playerCoinTextArray = [self.playerCoin1,self.playerCoin2,self.playerCoin3,self.playerCoin4]
-    var playerCoinTextArray = [SKLabelNode]()
-    var playerBgArray = [SKSpriteNode]()
-//    var playerBgArray = [self.playerInfoBgTexture1,self.playerInfoBgTexture2,self.playerInfoBgTexture3,self.playerInfoBgTexture4]
-    
-    
-    var returnAnswer = true
-    
-    
     override func didMove(to view: SKView) {
-//        current state player 1
-        
         playerInfoBgTexture1 = SKSpriteNode(imageNamed: "background_player_info_selected")
         playerInfoBgTexture1.position = CGPoint(x: -(view.bounds.size.width/2)+100, y: view.bounds.size.height/2 - 30 )
         playerInfoBgTexture1.zPosition = -50
         playerInfoBgTexture1.size = CGSize(width: 348, height: 150)
         addChild(playerInfoBgTexture1)
-        
         
         let playerInfoAva1 = SKSpriteNode(imageNamed: "playerfix1")
         playerInfoAva1.position = CGPoint(x: -(view.bounds.size.width/2)-10, y: view.bounds.size.height/2 - 30)
@@ -196,7 +196,7 @@ class GameScene: SKScene {
         playerCoin2.text = "\(playersDataArray[1].currentPoin)"
         playerCoin2.fontName = "AvenirNext-Bold"
         addChild(playerCoin2)
-        
+
 //        current state 3
         
         playerInfoBgTexture3 = SKSpriteNode(imageNamed: "background_player_info")
@@ -269,7 +269,6 @@ class GameScene: SKScene {
 //        playerCoinTextArray.append(playerCoin3)
 //        playerCoinTextArray.append(playerCoin4)
         
-        
         if playersDataArray.count == 4 {
             playerCoinTextArray.append(playerCoin3)
             playerCoinTextArray.append(playerCoin4)
@@ -299,16 +298,12 @@ class GameScene: SKScene {
             playerCoin3.text = "\(playersDataArray[2].currentPoin)"
         }
         
-
-        
         //-----------------------------------BACKGROUND INITIATION--------------------------------------
         let background = SKSpriteNode(imageNamed: "mini2")
         background.position = CGPoint(x: 0, y: 0)
         background.size = self.size
         background.zPosition = -200
         addChild(background)
-        
-        
         
         let boardNode = SKNode()
         addChild(boardNode)
@@ -319,7 +314,7 @@ class GameScene: SKScene {
         
         //------------------------------------BOARD CARD INITIATION--------------------------------------
         for _ in 0..<25 {
-            let tileNode = SKSpriteNode(color: transparant, size: CGSize(width: tileWidth, height: tileHeight))
+            let tileNode = SKSpriteNode(color: .black, size: CGSize(width: tileWidth, height: tileHeight))
             boardNode.addChild(tileNode)
             boardNodes.append(tileNode)
         }
@@ -380,9 +375,6 @@ class GameScene: SKScene {
         pathNodes[23] = CGPoint(x: 80, y: -60)
         pathNodes[24] = CGPoint(x: 70, y: -90)
         
-        
-        let startingBoardNode = boardNodes[0] // assuming you have an array of board nodes
-        
         //--------------------------------------PLAYERS INITIATION------------------------------------------
         for player in 0..<playersDataArray.count {
             let startingBoardNode = boardNodes[playersDataArray[player].currentSteps]
@@ -393,17 +385,13 @@ class GameScene: SKScene {
         }
         
         // ------------------------------------DICE INITIATION----------------------------------------------
-        var diceButtonTexture = SKTexture(imageNamed: "dice\(diceNumber)")
+        let diceButtonTexture = SKTexture(imageNamed: "dice\(diceNumber)")
         diceButton = SKSpriteNode(texture: diceButtonTexture)
         diceButton?.size = CGSize(width: 200, height: 200)
         diceButton?.position = CGPoint(x: -180, y: 0)
         addChild(diceButton!)
         
-        // ------------------------------------POP UP CONTAINER----------------------------------------------
-        // ada method sendiri di bawah
-        
-        // ------------------------------------TEXT FIELDCONTAINER-------------------------------------------
-        
+        addOverlay()
     }
     
     // --------------------------------FUNC TO MOVE OBJECT--------------------------------------------------
@@ -442,7 +430,7 @@ class GameScene: SKScene {
             newPosition = CGPoint(x: startPosition.x+pathNodes[pathPosition].x, y: startPosition.y+pathNodes[pathPosition].y)
         }
 //        pathPosition+=1
-        for step in 1..<diceNumber {
+        for _ in 1..<diceNumber {
             if pathPosition == 24 {
 
                 path.addLine(to: CGPoint(x: newPosition.x+pathNodes[0].x, y: newPosition.y+pathNodes[0].y))
@@ -462,14 +450,14 @@ class GameScene: SKScene {
         let targetPosition = boardNodes[finalPosition].position
         myObject.setPosition(position: targetPosition)
     }
+    
     func presentSwiftUIView() {
-        let swiftUIView = Camera()
-        if let viewController = self.view?.window?.rootViewController {
-            let hostingController = UIHostingController(rootView: swiftUIView)
-            viewController.present(hostingController, animated: true, completion: nil)
-        }
+//    let swiftUIView = Camera()
+//        if let viewController = self.view?.window?.rootViewController {
+//            let hostingController = UIHostingController(rootView: swiftUIView)
+//            viewController.present(hostingController, animated: true, completion: nil)
+//        }
     }
-
     
     func touchDown(atPoint pos : CGPoint) {
     }
@@ -480,27 +468,18 @@ class GameScene: SKScene {
     func touchUp(atPoint pos : CGPoint) {
     }
     
-//    playerBgArray[0].texture = SKTexture(imageNamed: "background_player_info_selected")
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
-//        var playerBgArray = [self.playerInfoBgTexture1,self.playerInfoBgTexture2,self.playerInfoBgTexture3,self.playerInfoBgTexture4]
-//        playerBgArray[currentPlayerIndex].texture = SKTexture(imageNamed: "background_player_info_selected")
-//        if currentPlayerIndex != 0 {
-//            playerBgArray[currentPlayerIndex - 1].texture = SKTexture(imageNamed: "background_player_info")
-//        }
-//        else {
-//            playerBgArray[playersDataArray.count-1].texture = SKTexture(imageNamed: "background_player_info")
-//        }
         
-//        playerInfoBgTexture4.texture = SKTexture(imageNamed: "background_player_info_selected")
-        if diceButton?.contains(touchLocation) == true {
-            // print(currentPlayer)
+        if diceButton?.contains(touchLocation) == true && diceClicked == false {
+            diceClicked = true
             
             let diceNumber = rollDice()
             let diceButtonTexture = SKTexture(imageNamed: "dice\(diceNumber)")
             diceButton?.texture = diceButtonTexture
             var count = 0
+            var count2 = 0
             
             let diceRollTimer = Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { [weak self] timer in
                 count += 1
@@ -512,8 +491,6 @@ class GameScene: SKScene {
                 let diceButtonTexture = SKTexture(imageNamed: "dice\(diceNumber)")
                 self?.diceButton?.run(SKAction.setTexture(diceButtonTexture), completion: { [self] in
                     if count == 6 {
-                        
-
                         self!.diceNumberFix = 4
                         var startPosition = playersDataArray[self!.currentPlayerIndex].currentSteps
                         var move = playersDataArray[self!.currentPlayerIndex].currentSteps + self!.diceNumberFix//
@@ -551,43 +528,46 @@ class GameScene: SKScene {
                     }
                 })
             }
-
-
             
-        } else if buttonFrame?.contains(touchLocation) == true {
-            diceButton?.position = CGPoint(x: -180, y: 0)
+        } else if buttonFrame?.contains(touchLocation) == true && (popUpContainerAppeared == true || popUpContainer2Appeared == true || popUpContainer3Appeared == true) {
+            popUpContainerAppeared = false
+            popUpContainer2Appeared = false
+            popUpContainer3Appeared = false
+            overlayNode?.isHidden = true
             
-            popUpContainer?.removeFromParent()
-            skView?.removeFromSuperview()
+            removePopUpContainer()
             
-            let firstPrompt = textField?.text
-            self.userInfo = ["FirstPrompt": firstPrompt ?? ""]
-            self.userInfoBackup = self.userInfo
-            cardArray[self.move].firstPrompt = self.userInfoBackup?["FirstPrompt"] as! String
-            self.countShown = 2
+            if onAcquisitionMode == true {
+                diceClicked = true
+                if cardArray[move].cardChallengesType != "Truth or Dare" {
+                    if cardArray[move].correctPrompt == selectedPrompt {
+                        addBuyOfferPopUp(challengeName: "Do you want to acquisition?", buyCost: cardArray[cardNode].cost+20)
+                    } else {
+                        diceClicked = false
+                        //ke-skip karena salah jawab prompt
+                        //poin berkurang
+                    }
+                } else {
+                    addBuyOfferPopUp(challengeName: "Do you want to acquisition?", buyCost: cardArray[cardNode].cost+20)
+                }
+            } else {
+                diceClicked = false
+                let firstPrompt = textField?.text
+                cardArray[self.move].firstPrompt = firstPrompt ?? "Enter your prompt"
+                self.countShown = 2
+                
+                let secondPrompt = textField2?.text
+                cardArray[self.move].secondPrompt = secondPrompt ?? "Enter your prompt"
+                self.countShown = 2
+                
+                let thirdPrompt = textField3?.text
+                cardArray[self.move].thirdPrompt = thirdPrompt ?? "Enter your prompt"
+                self.countShown = 2
+                
+                cardArray[self.move].correctPrompt = self.selectedPrompt
+            }
             
-            let secondPrompt = textField2?.text
-            self.userInfo = ["SecondPrompt": secondPrompt ?? ""]
-            self.userInfoBackup = self.userInfo
-            cardArray[self.move].secondPrompt = self.userInfoBackup?["SecondPrompt"] as! String
-            self.countShown = 2
-            
-            let thirdPrompt = textField3?.text
-            self.userInfo = ["ThirdPrompt": thirdPrompt ?? ""]
-            self.userInfoBackup = self.userInfo
-            cardArray[self.move].thirdPrompt = self.userInfoBackup?["ThirdPrompt"] as! String
-            self.countShown = 2
-            
-            cardArray[self.move].correctPrompt = self.selectedPrompt
-            
-            print(cardArray[self.move].firstPrompt)
-            print(cardArray[self.move].secondPrompt)
-            print(cardArray[self.move].thirdPrompt)
-            
-            print(selectedPrompt)
-            print(cardArray[self.move].correctPrompt)
-            
-        } else if circleNode?.contains(touchLocation) == true {
+        } else if circleNode?.contains(touchLocation) == true && popUpContainer2Appeared == true {
             firstCircleClicked.toggle()
             selectedPrompt = "firstPrompt"
             
@@ -605,7 +585,7 @@ class GameScene: SKScene {
             circleNode2?.fillColor = UIColor.white
             secondCircleClicked = false
             
-        } else if circleNode2?.contains(touchLocation) == true {
+        } else if circleNode2?.contains(touchLocation) == true && popUpContainer2Appeared == true {
             secondCircleClicked.toggle()
             selectedPrompt = "secondPrompt"
             
@@ -623,7 +603,7 @@ class GameScene: SKScene {
             circleNode?.fillColor = UIColor.white
             firstCircleClicked = false
             
-        } else if circleNode3?.contains(touchLocation) == true {
+        } else if circleNode3?.contains(touchLocation) == true && popUpContainerAppeared == true {
             thirdCircleClicked.toggle()
             selectedPrompt = "firstPrompt"
             
@@ -632,7 +612,7 @@ class GameScene: SKScene {
             lieLabel?.fontName = "AvenirNext-Bold"
             lieLabel?.fontColor = .white
             lieLabel?.fontSize = 30
-            lieLabel?.position = CGPoint(x: 0, y: -10)
+            lieLabel?.position = CGPoint(x: 0, y: -12)
             
             lieLabel?.removeFromParent()
             circleNode3?.fillColor = UIColor(red: 85/255, green: 197/255, blue: 149/255, alpha: 100)
@@ -644,7 +624,7 @@ class GameScene: SKScene {
             fourthCircleClicked = false
             fifthCircleClicked = false
             
-        } else if circleNode4?.contains(touchLocation) == true {
+        } else if circleNode4?.contains(touchLocation) == true && popUpContainerAppeared == true {
             fourthCircleClicked.toggle()
             selectedPrompt = "secondPrompt"
             
@@ -653,7 +633,7 @@ class GameScene: SKScene {
             lieLabel?.fontName = "AvenirNext-Bold"
             lieLabel?.fontColor = .white
             lieLabel?.fontSize = 30
-            lieLabel?.position = CGPoint(x: 0, y: -10)
+            lieLabel?.position = CGPoint(x: 0, y: -12)
             
             lieLabel?.removeFromParent()
             circleNode4?.fillColor = UIColor(red: 85/255, green: 197/255, blue: 149/255, alpha: 100)
@@ -665,7 +645,7 @@ class GameScene: SKScene {
             thirdCircleClicked = false
             fifthCircleClicked = false
             
-        } else if circleNode5?.contains(touchLocation) == true {
+        } else if circleNode5?.contains(touchLocation) == true && popUpContainerAppeared == true {
             fifthCircleClicked.toggle()
             selectedPrompt = "thirdPrompt"
             
@@ -674,7 +654,7 @@ class GameScene: SKScene {
             lieLabel?.fontName = "AvenirNext-Bold"
             lieLabel?.fontColor = .white
             lieLabel?.fontSize = 30
-            lieLabel?.position = CGPoint(x: 0, y: -10)
+            lieLabel?.position = CGPoint(x: 0, y: -12)
             
             lieLabel?.removeFromParent()
             circleNode5?.fillColor = UIColor(red: 85/255, green: 197/255, blue: 149/255, alpha: 100)
@@ -686,31 +666,82 @@ class GameScene: SKScene {
             thirdCircleClicked = false
             fourthCircleClicked = false
             
-        } else if dareButtonFrame?.contains(touchLocation) == true {
-            popUpContainer?.removeFromParent()
+        } else if dareButtonFrame?.contains(touchLocation) == true && todPopUpAppeared == true {
+            removePopUpContainer()
+            todPopUpAppeared = false
             addPopUpContainer3(title: "DARE")
-        } else if truthButtonFrame?.contains(touchLocation) == true {
-            popUpContainer?.removeFromParent()
+            cardArray[move].secondPrompt = "DARE"
+            
+        } else if truthButtonFrame?.contains(touchLocation) == true && todPopUpAppeared == true {
+            removePopUpContainer()
+            todPopUpAppeared = false
             addPopUpContainer3(title: "TRUTH")
-        } else if buyButtonFrame?.contains(touchLocation) == true {
-            popUpContainer?.removeFromParent()
+            cardArray[move].secondPrompt = "TRUTH"
+            
+        } else if buyButtonFrame?.contains(touchLocation) == true && buyPopUpAppeared == true {
+            removePopUpContainer()
+            buyPopUpAppeared = false
             buy = true
-            addPopUpContainer2()
-        } else if skipButtonFrame?.contains(touchLocation) == true {
-            diceButton?.position = CGPoint(x: -180, y: 0)
-            popUpContainer?.removeFromParent()
+            
+            if onAcquisitionMode == true {
+                cardArray[cardNode].cost += 20
+                cardArray[cardNode].firstPrompt = ""
+                cardArray[cardNode].secondPrompt = ""
+                cardArray[cardNode].thirdPrompt = ""
+                cardArray[cardNode].correctPrompt = ""
+                onAcquisitionMode = false
+                
+                if challengeName == "2 Truth 1 Lie" {
+                    addPopUpContainer()
+                } else if challengeName == "Would You Rather" {
+                    addPopUpContainer2()
+                } else if challengeName == "Truth or Dare" {
+                    addTODPopUp()
+                }
+                
+            } else {
+                cardArray[cardNode].cost += 20
+                cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
+                playersDataArray[currentPlayerIndexForPopUp].currentPoin -= cardArray[cardNode].cost
+                
+                for i in 0..<self.playerCoinTextArray.count {
+                    self.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
+                }
+                
+                if challengeName == "2 Truth 1 Lie" {
+                    addPopUpContainer()
+                } else if challengeName == "Would You Rather" {
+                    addPopUpContainer2()
+                } else if challengeName == "Truth or Dare" {
+                    addTODPopUp()
+                }
+            }
+            
+        } else if skipButtonFrame?.contains(touchLocation) == true && (challengePopUpAppeared == true || buyPopUpAppeared == true) {
+            diceClicked = false
+            challengePopUpAppeared = false
+            buyPopUpAppeared = false
+            overlayNode?.isHidden = true
+            
+            removePopUpContainer()
             
             buy = false
+        } else if mainMenuButtonFrame?.contains(touchLocation) == true && leaderboardPopUpAppeared == true {
+            //back to main menu
+            leaderboardPopUpAppeared = false
+            diceClicked = false
+            overlayNode?.isHidden = true
+            removePopUpContainer()
         }
-        //z
+
     }
     
     func addPopUpContainer() {
-        diceButton?.position = CGPoint(x: 1000, y: 0)
+        popUpContainerAppeared = true
         
         popUpContainer = SKSpriteNode(color: UIColor(red: 1, green: 1, blue: 1, alpha: 0), size: CGSize(width: 1000, height: 600))
         popUpContainer?.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        popUpContainer?.zPosition = 1
+        popUpContainer?.zPosition = 200
         
         //background for popUpContainer
         let cornerRadius = CGFloat(50)
@@ -737,6 +768,7 @@ class GameScene: SKScene {
         buttonLabel?.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         buttonLabel?.fontSize = 50
         buttonLabel?.position = CGPoint(x: 0, y: -19)
+        buttonLabel?.zPosition = 25
         
         //first text field
         let textFieldFrame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 600, height: 70))
@@ -744,6 +776,8 @@ class GameScene: SKScene {
         textField?.backgroundColor = UIColor.white
         textField?.placeholder = "Enter your prompt"
         textField?.layer.cornerRadius = textFieldFrame.size.height / 2
+        textField?.autocorrectionType = .no
+        textField?.text = "\(cardArray[move].firstPrompt)"
         
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textFieldFrame.size.height))
         textField?.leftView = leftPaddingView
@@ -760,6 +794,8 @@ class GameScene: SKScene {
         textField2?.backgroundColor = UIColor.white
         textField2?.placeholder = "Enter your prompt"
         textField2?.layer.cornerRadius = textFieldFrame.size.height / 2
+        textField2?.autocorrectionType = .no
+        textField2?.text = "\(cardArray[move].firstPrompt)"
         
         let leftPadding2View = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textFieldFrame.size.height))
         textField2?.leftView = leftPadding2View
@@ -776,6 +812,8 @@ class GameScene: SKScene {
         textField3?.backgroundColor = UIColor.white
         textField3?.placeholder = "Enter your prompt"
         textField3?.layer.cornerRadius = textFieldFrame.size.height / 2
+        textField3?.autocorrectionType = .no
+        textField3?.text = "\(cardArray[move].firstPrompt)"
         
         let leftPadding3View = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textFieldFrame.size.height))
         textField3?.leftView = leftPadding3View
@@ -813,150 +851,12 @@ class GameScene: SKScene {
         popUpContainer?.addChild(circleNode5!)
     }
     
-    
-    func addPopUpContainerIfOwned() {
-        diceButton?.position = CGPoint(x: 1000, y: 0)
-        
-        popUpContainer = SKSpriteNode(color: UIColor(red: 1, green: 1, blue: 1, alpha: 0), size: CGSize(width: 1000, height: 600))
-        popUpContainer?.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        popUpContainer?.zPosition = 1
-        
-        //background for popUpContainer
-        let cornerRadius = CGFloat(50)
-        let roundedRect = CGRect(x: -popUpContainer!.size.width / 2, y: -popUpContainer!.size.height / 2, width: popUpContainer!.size.width, height: popUpContainer!.size.height)
-        let path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius)
-        let shape = SKShapeNode(path: path.cgPath)
-        shape.fillColor = UIColor(red: 203/255, green: 218/255, blue: 224/255, alpha: 100)
-        popUpContainer?.addChild(shape)
-        
-        //title
-        let titleLabel = SKLabelNode(text: "2 TRUTH 1 LIE")
-        titleLabel.fontName = "AvenirNext-Bold"
-        titleLabel.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
-        titleLabel.fontSize = 55
-        titleLabel.position = CGPoint(x: 0, y: 220)
-        
-        //next button
-        buttonFrame = SKShapeNode(rectOf: CGSize(width: 300, height: 85), cornerRadius: 40)
-        buttonFrame?.fillColor = UIColor(red: 85/255, green: 197/255, blue: 149/255, alpha: 100)
-        buttonFrame?.position = CGPoint(x: 0, y: -220)
-        
-        buttonLabel = SKLabelNode(text: "NEXT")
-        buttonLabel?.fontName = "AvenirNext-Bold"
-        buttonLabel?.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
-        buttonLabel?.fontSize = 50
-        buttonLabel?.position = CGPoint(x: 0, y: -19)
-        
-        //first text field
-        let textFieldFrame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 600, height: 70))
-        textField = UITextField(frame: textFieldFrame)
-        textField?.backgroundColor = UIColor.white
-        textField?.placeholder = "Enter your prompt"
-        textField?.layer.cornerRadius = textFieldFrame.size.height / 2
-        
-        
-        let textLabelFrame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 600, height: 70))
-        textLabel = UILabel(frame: textLabelFrame)
-        textLabel?.backgroundColor = UIColor.white
-        textLabel?.layer.cornerRadius = textFieldFrame.size.height
-        textLabel?.text = "\(cardArray[move].firstPrompt)"
-//
-//        let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textLabelFrame.size.height))
-//        textLabel.leftView = leftPaddingView
-//        textLabel.leftViewMode = .always
-        
-        
-//        let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textFieldFrame.size.height))
-//        textField?.leftView = leftPaddingView
-//        textField?.leftViewMode = .always
-        
-        circleNode3 = SKShapeNode(circleOfRadius: 40)
-        circleNode3?.fillColor = UIColor.white
-        circleNode3?.lineWidth = 2
-        circleNode3?.position = CGPoint(x: -370, y: 132)
-        
-        let textLabel2Frame = CGRect(origin: CGPoint(x: 0, y: 100), size: CGSize(width: 600, height: 70))
-        textLabel2 = UILabel(frame: textLabel2Frame)
-        textLabel2?.backgroundColor = UIColor.white
-        textLabel2?.layer.cornerRadius = textLabel2Frame.size.height / 2
-        textLabel?.text = "\(cardArray[move].secondPrompt)"
-        
-        
-        
-        //second text field
-//        let textField2Frame = CGRect(origin: CGPoint(x: 0, y: 100), size: CGSize(width: 600, height: 70))
-//        textField2 = UITextField(frame: textField2Frame)
-//        textField2?.backgroundColor = UIColor.white
-//        textField2?.placeholder = "Enter your prompt"
-//        textField2?.layer.cornerRadius = textFieldFrame.size.height / 2
-//
-//        let leftPadding2View = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textFieldFrame.size.height))
-//        textField2?.leftView = leftPadding2View
-//        textField2?.leftViewMode = .always
-        
-        circleNode4 = SKShapeNode(circleOfRadius: 40)
-        circleNode4?.fillColor = UIColor.white
-        circleNode4?.lineWidth = 2
-        circleNode4?.position = CGPoint(x: -370, y: 15)
-        
-        //third text field
-        let textField3Frame = CGRect(origin: CGPoint(x: 0, y: 200), size: CGSize(width: 600, height: 70))
-        textField3 = UITextField(frame: textField3Frame)
-        textField3?.backgroundColor = UIColor.white
-        textField3?.placeholder = "Enter your prompt"
-        textField3?.layer.cornerRadius = textFieldFrame.size.height / 2
-        
-        let textLabel3Frame = CGRect(origin: CGPoint(x: 0, y: 100), size: CGSize(width: 600, height: 70))
-        textLabel3 = UILabel(frame: textLabel3Frame)
-        textLabel3?.backgroundColor = UIColor.white
-        textLabel3?.layer.cornerRadius = textLabel3Frame.size.height / 2
-        textLabel3?.text = "\(cardArray[move].thirdPrompt)"
-        
-//        let leftPadding3View = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textFieldFrame.size.height))
-//        textField3?.leftView = leftPadding3View
-//        textField3?.leftViewMode = .always
-        
-        circleNode5 = SKShapeNode(circleOfRadius: 40)
-        circleNode5?.fillColor = UIColor.white
-        circleNode5?.lineWidth = 2
-        circleNode5?.position = CGPoint(x: -370, y: -103)
-        
-        //frame for text field
-        let sceneFrame = CGRect(origin: .zero, size: CGSize(width: 520, height: 300))
-        let scene = SKScene(size: sceneFrame.size)
-        scene.backgroundColor = UIColor(red: 203/255, green: 218/255, blue: 224/255, alpha: 100)
-        scene.view?.layer.cornerRadius = textFieldFrame.size.height / 2
-        
-        skView = SKView(frame: sceneFrame)
-        skView?.addSubview(textField!)
-        skView?.addSubview(textField2!)
-        skView?.addSubview(textField3!)
-        skView?.presentScene(scene)
-        
-        if let view = self.view {
-            skView?.center = view.center
-            view.addSubview(skView!)
-            popUpContainer?.inputView?.addSubview(skView!)
-        }
-        
-        addChild(popUpContainer!)
-        buttonFrame?.addChild(buttonLabel!)
-        popUpContainer?.addChild(buttonFrame!)
-        popUpContainer?.addChild(titleLabel)
-        popUpContainer?.addChild(circleNode3!)
-        popUpContainer?.addChild(circleNode4!)
-        popUpContainer?.addChild(circleNode5!)
-    }
-    
-    
-    
-    
     func addPopUpContainer2() {
-        diceButton?.position = CGPoint(x: 1000, y: 0)
+        popUpContainer2Appeared = true
         
         popUpContainer = SKSpriteNode(color: UIColor(red: 1, green: 1, blue: 1, alpha: 0), size: CGSize(width: 1000, height: 480))
         popUpContainer?.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        popUpContainer?.zPosition = 1
+        popUpContainer?.zPosition = 200
         
         //background for popUpContainer
         let cornerRadius = CGFloat(50)
@@ -983,6 +883,7 @@ class GameScene: SKScene {
         buttonLabel?.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         buttonLabel?.fontSize = 50
         buttonLabel?.position = CGPoint(x: 0, y: -177)
+        buttonLabel?.zPosition = 25
         
         //first text field
         let textFieldFrame = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 600, height: 70))
@@ -990,6 +891,8 @@ class GameScene: SKScene {
         textField?.backgroundColor = UIColor.white
         textField?.placeholder = "Enter your prompt"
         textField?.layer.cornerRadius = textFieldFrame.size.height / 2
+        textField?.autocorrectionType = .no
+        textField?.text = "\(cardArray[move].firstPrompt)"
         
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textFieldFrame.size.height))
         textField?.leftView = leftPaddingView
@@ -1006,6 +909,8 @@ class GameScene: SKScene {
         textField2?.backgroundColor = UIColor.white
         textField2?.placeholder = "Enter your prompt"
         textField2?.layer.cornerRadius = textFieldFrame.size.height / 2
+        textField2?.autocorrectionType = .no
+        textField2?.text = "\(cardArray[move].firstPrompt)"
         
         let leftPadding2View = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textFieldFrame.size.height))
         textField2?.leftView = leftPadding2View
@@ -1042,11 +947,11 @@ class GameScene: SKScene {
     }
     
     func addPopUpContainer3(title: String) {
-        diceButton?.position = CGPoint(x: 1000, y: 0)
+        popUpContainer3Appeared = true
         
         popUpContainer = SKSpriteNode(color: UIColor(red: 1, green: 1, blue: 1, alpha: 0), size: CGSize(width: 1000, height: 380))
         popUpContainer?.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        popUpContainer?.zPosition = 1
+        popUpContainer?.zPosition = 200
         
         //background for popUpContainer
         let cornerRadius = CGFloat(50)
@@ -1073,6 +978,7 @@ class GameScene: SKScene {
         buttonLabel?.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         buttonLabel?.fontSize = 50
         buttonLabel?.position = CGPoint(x: 0, y: -135)
+        buttonLabel?.zPosition = 25
         
         //first text field
         let textFieldFrame = CGRect(origin: CGPoint(x: 0, y: -11), size: CGSize(width: 600, height: 70))
@@ -1080,6 +986,8 @@ class GameScene: SKScene {
         textField?.backgroundColor = UIColor.white
         textField?.placeholder = "Enter your prompt"
         textField?.layer.cornerRadius = textFieldFrame.size.height / 2
+        textField?.autocorrectionType = .no
+        textField?.text = "\(cardArray[move].firstPrompt)"
         
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: textFieldFrame.size.height))
         textField?.leftView = leftPaddingView
@@ -1107,12 +1015,12 @@ class GameScene: SKScene {
         popUpContainer?.addChild(buttonFrame!)
     }
     
-    func addBuyOfferPopUp() {
-        diceButton?.position = CGPoint(x: 1000, y: 0)
+    func addBuyOfferPopUp(challengeName: String, buyCost: Int) {
+        buyPopUpAppeared = true
         
         popUpContainer = SKSpriteNode(color: UIColor(red: 1, green: 1, blue: 1, alpha: 0), size: CGSize(width: 1000, height: 350))
         popUpContainer?.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        popUpContainer?.zPosition = 1
+        popUpContainer?.zPosition = 200
         
         //background for popUpContainer
         let cornerRadius = CGFloat(50)
@@ -1123,7 +1031,7 @@ class GameScene: SKScene {
         popUpContainer?.addChild(shape)
         
         //title
-        let titleLabel = SKLabelNode(text: "YOU LANDED ON")
+        let titleLabel = SKLabelNode(text: onAcquisitionMode ? "ACQUISITION?" : "YOU LANDED ON")
         titleLabel.fontName = "AvenirNext-Bold"
         titleLabel.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         titleLabel.fontSize = 55
@@ -1145,22 +1053,25 @@ class GameScene: SKScene {
         skipButtonLabel?.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         skipButtonLabel?.fontSize = 50
         skipButtonLabel?.position = CGPoint(x: 210, y: -100)
+        skipButtonLabel?.zPosition = 25
         
         //buy button
         buyButtonFrame = SKShapeNode(rectOf: CGSize(width: 365, height: 85), cornerRadius: 40)
         buyButtonFrame?.fillColor = UIColor(red: 85/255, green: 197/255, blue: 149/255, alpha: 100)
         buyButtonFrame?.position = CGPoint(x: -160, y: -82)
         
-        buyButtonLabel = SKLabelNode(text: "BUY      180")
+        buyButtonLabel = SKLabelNode(text: "BUY      \(cardArray[cardNode].cost)")
         buyButtonLabel?.fontName = "AvenirNext-Bold"
         buyButtonLabel?.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         buyButtonLabel?.fontSize = 50
         buyButtonLabel?.position = CGPoint(x: -160, y: -100)
+        buyButtonLabel?.zPosition = 25
         
         //coin image for button
         let coinImage = SKSpriteNode(imageNamed: "coin")
         coinImage.position = CGPoint(x: -157, y: -80)
         coinImage.size = CGSize(width: 50, height: 50)
+        coinImage.zPosition = 25
         
         addChild(popUpContainer!)
         popUpContainer?.addChild(titleLabel)
@@ -1173,11 +1084,11 @@ class GameScene: SKScene {
     }
     
     func addChallengePopUp() {
-        diceButton?.position = CGPoint(x: 1000, y: 0)
+        challengePopUpAppeared = true
         
         popUpContainer = SKSpriteNode(color: UIColor(red: 1, green: 1, blue: 1, alpha: 0), size: CGSize(width: 1150, height: 350))
         popUpContainer?.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        popUpContainer?.zPosition = 1
+        popUpContainer?.zPosition = 200
         
         //background for popUpContainer
         let cornerRadius = CGFloat(50)
@@ -1196,43 +1107,44 @@ class GameScene: SKScene {
         
         //sub title label
         let subTitleLabel = SKLabelNode(text: "Please tell us...")
-//        subTitleLabel.fontName = "AvenirNext"
+        subTitleLabel.fontName = "AvenirNext"
         subTitleLabel.fontColor = UIColor.black
         subTitleLabel.fontSize = 25
         subTitleLabel.position = CGPoint(x: 0, y: 40)
         
         //challenge label
         let challengeNameLabel = SKLabelNode(text: challenges.randomElement()?.challengePrompt)
-//        challengeNameLabel.fontName = "AvenirNext"
+        challengeNameLabel.fontName = "AvenirNext"
         challengeNameLabel.fontColor = UIColor.black
         challengeNameLabel.fontSize = 25
         challengeNameLabel.position = CGPoint(x: 0, y: -15)
         
         //next button
-        buttonFrame = SKShapeNode(rectOf: CGSize(width: 300, height: 85), cornerRadius: 40)
-        buttonFrame?.fillColor = UIColor(red: 85/255, green: 197/255, blue: 149/255, alpha: 100)
-        buttonFrame?.position = CGPoint(x: 0, y: -105)
+        skipButtonFrame = SKShapeNode(rectOf: CGSize(width: 300, height: 85), cornerRadius: 40)
+        skipButtonFrame?.fillColor = UIColor(red: 85/255, green: 197/255, blue: 149/255, alpha: 100)
+        skipButtonFrame?.position = CGPoint(x: 0, y: -105)
         
-        buttonLabel = SKLabelNode(text: "DONE")
-        buttonLabel?.fontName = "AvenirNext-Bold"
-        buttonLabel?.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
-        buttonLabel?.fontSize = 50
-        buttonLabel?.position = CGPoint(x: 0, y: -125)
+        skipButtonLabel = SKLabelNode(text: "DONE")
+        skipButtonLabel?.fontName = "AvenirNext-Bold"
+        skipButtonLabel?.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
+        skipButtonLabel?.fontSize = 50
+        skipButtonLabel?.position = CGPoint(x: 0, y: -125)
+        skipButtonLabel?.zPosition = 25
         
         addChild(popUpContainer!)
         popUpContainer?.addChild(titleLabel)
         popUpContainer?.addChild(subTitleLabel)
         popUpContainer?.addChild(challengeNameLabel)
-        popUpContainer?.addChild(buttonLabel!)
-        popUpContainer?.addChild(buttonFrame!)
+        popUpContainer?.addChild(skipButtonLabel!)
+        popUpContainer?.addChild(skipButtonFrame!)
     }
     
     func addTODPopUp() {
-        diceButton?.position = CGPoint(x: 1000, y: 0)
+        todPopUpAppeared = true
         
         popUpContainer = SKSpriteNode(color: UIColor(red: 1, green: 1, blue: 1, alpha: 0), size: CGSize(width: 800, height: 200))
         popUpContainer?.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        popUpContainer?.zPosition = 1
+        popUpContainer?.zPosition = 200
         
         //background for popUpContainer
         let cornerRadius = CGFloat(50)
@@ -1253,12 +1165,13 @@ class GameScene: SKScene {
         dareButtonFrame = SKShapeNode(rectOf: CGSize(width: 300, height: 85), cornerRadius: 40)
         dareButtonFrame?.fillColor = UIColor(red: 85/255, green: 197/255, blue: 149/255, alpha: 100)
         dareButtonFrame?.position = CGPoint(x: 190, y: 0)
-            
+        
         dareButtonLabel = SKLabelNode(text: "DARE")
         dareButtonLabel?.fontName = "AvenirNext-Bold"
         dareButtonLabel?.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         dareButtonLabel?.fontSize = 50
         dareButtonLabel?.position = CGPoint(x: 190, y: -17)
+        dareButtonLabel?.zPosition = 25
         
         //buy button
         truthButtonFrame = SKShapeNode(rectOf: CGSize(width: 300, height: 85), cornerRadius: 40)
@@ -1270,6 +1183,7 @@ class GameScene: SKScene {
         truthButtonLabel?.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
         truthButtonLabel?.fontSize = 50
         truthButtonLabel?.position = CGPoint(x: -188, y: -17)
+        truthButtonLabel?.zPosition = 25
         
         addChild(popUpContainer!)
         popUpContainer?.addChild(titleLabel)
@@ -1279,11 +1193,99 @@ class GameScene: SKScene {
         popUpContainer?.addChild(truthButtonLabel!)
     }
     
+    func removePopUpContainer() {
+        skView?.removeFromSuperview()
+        popUpContainer?.removeAllChildren()
+        popUpContainer?.removeFromParent()
+        popUpContainer = nil
+    }
+    
+    func addOverlay() {
+        overlayNode = SKSpriteNode(color: UIColor.black.withAlphaComponent(0.3), size: self.size)
+        overlayNode?.zPosition = -80
+        overlayNode?.isHidden = true
+        addChild(overlayNode!)
+    }
+    
+    func addLeaderboardPopUp() {
+        leaderboardPopUpAppeared = true
+        
+        let sortedPlayers = playersDataArray.sorted { $0.currentPoin > $1.currentPoin }
+        
+        let firstPlaceImage: SKSpriteNode?
+        let secondPlaceImage: SKSpriteNode?
+        let thirdPlaceImage: SKSpriteNode?
+        let fourthPlaceImage: SKSpriteNode?
+        
+        popUpContainer = SKSpriteNode(color: UIColor(red: 1, green: 1, blue: 1, alpha: 0), size: CGSize(width: 840, height: 650))
+        popUpContainer?.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        popUpContainer?.zPosition = 1
+        
+        //background for popUpContainer
+        let cornerRadius = CGFloat(50)
+        let roundedRect = CGRect(x: -popUpContainer!.size.width / 2, y: -popUpContainer!.size.height / 2, width: popUpContainer!.size.width, height: popUpContainer!.size.height)
+        let path = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius)
+        let shape = SKShapeNode(path: path.cgPath)
+        shape.fillColor = UIColor(red: 203/255, green: 218/255, blue: 224/255, alpha: 100)
+        popUpContainer?.addChild(shape)
+        
+        //title
+        let titleLabel = SKLabelNode(text: "PLAYERS RANK")
+        titleLabel.fontName = "AvenirNext-Bold"
+        titleLabel.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
+        titleLabel.fontSize = 55
+        titleLabel.position = CGPoint(x: 0, y: 235)
+        
+        //next button
+        mainMenuButtonFrame = SKShapeNode(rectOf: CGSize(width: 450, height: 85), cornerRadius: 40)
+        mainMenuButtonFrame?.fillColor = UIColor(red: 85/255, green: 197/255, blue: 149/255, alpha: 100)
+        mainMenuButtonFrame?.position = CGPoint(x: 0, y: -225)
+        
+        mainMenuButtonLabel = SKLabelNode(text: "PLAY AGAIN")
+        mainMenuButtonLabel?.fontName = "AvenirNext-Bold"
+        mainMenuButtonLabel?.fontColor = UIColor(red: 33/255, green: 82/255, blue: 115/255, alpha: 100)
+        mainMenuButtonLabel?.fontSize = 50
+        mainMenuButtonLabel?.position = CGPoint(x: 0, y: -241)
+        
+        //leaderboard image
+        let leaderboardImage = SKSpriteNode(imageNamed: "Leaderboard")
+        leaderboardImage.position = CGPoint(x: 0, y: -10)
+        leaderboardImage.zPosition = 10
+        
+        //set player images
+        firstPlaceImage = SKSpriteNode(imageNamed: "player1leaderboard")
+        firstPlaceImage?.position = CGPoint(x: 54, y: 155)
+        
+        secondPlaceImage = SKSpriteNode(imageNamed: "player2leaderboard")
+        secondPlaceImage?.position = CGPoint(x: -90, y: 110)
+        
+        thirdPlaceImage = SKSpriteNode(imageNamed: "player4leaderboard")
+        thirdPlaceImage?.position = CGPoint(x: 207, y: 45)
+        
+        fourthPlaceImage = SKSpriteNode(imageNamed: "player3leaderboard")
+        fourthPlaceImage?.position = CGPoint(x: -222, y: -15)
+        
+        addChild(popUpContainer!)
+        popUpContainer?.addChild(firstPlaceImage!)
+        popUpContainer?.addChild(secondPlaceImage!)
+        popUpContainer?.addChild(thirdPlaceImage!)
+        popUpContainer?.addChild(fourthPlaceImage!)
+        popUpContainer?.addChild(titleLabel)
+        popUpContainer?.addChild(mainMenuButtonLabel!)
+        popUpContainer?.addChild(mainMenuButtonFrame!)
+        popUpContainer?.addChild(leaderboardImage)
+    }
+    
     override func didEvaluateActions() {
-        var objPosition = myObject.objPosition
-        var cardNode : Int = 0
-        var lastOwnerIndex : Int = 0
-        var currentPlayerIndexForPopUp : Int = 0
+        let objPosition = myObject.objPosition
+        
+        for i in 0...3 {
+            if playersDataArray[i].currentPoin < 0 {
+                // SOMEONE LOSES - GAME SELESAI
+                addLeaderboardPopUp()
+            }
+        }
+        
         if currentPlayerIndex != 0 {
             currentPlayerIndexForPopUp = currentPlayerIndex - 1
         }
@@ -1294,355 +1296,128 @@ class GameScene: SKScene {
         for i in 0...24 {
             if boardNodes[i].position == objPosition {
                 cardNode = i
-//                print("ketemu \(i)")
             }
         }
         
-
+        if (buyPopUpAppeared == true || popUpContainerAppeared == true || popUpContainer2Appeared == true || popUpContainer3Appeared == true || challengePopUpAppeared == true || todPopUpAppeared == true || leaderboardPopUpAppeared == true) {
+            overlayNode?.isHidden = false
+        }
         
-        if ((objPosition.x == 510 && objPosition.y == 120) || (objPosition.x == 70 && objPosition.y == -150) || (objPosition.x == 450 && objPosition.y == -120) || (objPosition.x == 210 && objPosition.y == 60) || (objPosition.x == -425 && objPosition.y == 135) || (objPosition.x == -170 && objPosition.y == 260)) && countShown == 0 {
+        if cardArray[cardNode].cardChallengesType == "2 Truth 1 Lie" && countShown == 0 {
+            print(cardArray[cardNode].cardOwner)
+            print(playersDataArray[currentPlayerIndexForPopUp].playersName)
+            
             challengeName = "2 Truth 1 Lie"
+
             if cardArray[cardNode].cardOwner != playersDataArray[currentPlayerIndexForPopUp].playersName {
                 if cardArray[cardNode].cardOwner == "Null" {
-                    //                addBuyOfferPopUp()
-                     // bikin pilhan mo beli apa engga
-                    if playersDataArray[currentPlayerIndexForPopUp].currentPoin > 150 {
-                        
-                        let alertController = UIAlertController(title: "do you want to buy this field?", message: challengeName, preferredStyle: .alert)
-                        let yesAction = UIAlertAction(title: "Buy", style: .default) { [weak self] (_) in
-                            self?.buy = true
-    //                        self?.addPopUpContainer()  //2t1l
-                            cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
-                            playersDataArray[currentPlayerIndexForPopUp].currentPoin -= 150
-//                            print ("player \(playersDataArray[currentPlayerIndexForPopUp].playersName) delta poin = \(poinSebelum - playersDataArray[currentPlayerIndexForPopUp].currentPoin)")
-                            for i in 0..<self!.playerCoinTextArray.count {
-                                self!.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
-                            }
-                            print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di 2 Truth 1 Lie board ke \(cardNode)")
-                        }
-        
-                        let noAction = UIAlertAction(title: "Skip", style: .cancel) { [weak self] (_) in
-                            self?.buy = false
-                            //                self?.countShown = 1
-                        }
-                        alertController.addAction(yesAction)
-                        alertController.addAction(noAction)
-                        delay(1){
-                            self.view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-                        }
-                        
-                        
-                    }
-                    else {
-                        // TAMPILAN PEMENANG
-                    }
-//                    print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di 2 Truth 1 Lie board ke \(cardNode)")
-                }
-                
-                else {
-                    if playersDataArray[currentPlayerIndexForPopUp].currentPoin > 150 {
-                        //                      TAMPILAN POPUP CHALLENGENYA. CHECK RETURNNYA. AKU PAKE VARIABLE RETURNANSWER DULU YAAA
-                        for i in 0...playersDataArray.count - 1 {
-                            if cardArray[cardNode].cardOwner == playersDataArray[i].playersName {
-                                lastOwnerIndex = i
-                                
-                            }
-                        }
-                        if returnAnswer == true { //mau beli
-                            if playersDataArray[currentPlayerIndexForPopUp].currentPoin > 170 {
-                                let alertController = UIAlertController(title: "You're correct! do you want to buy this field?", message: challengeName, preferredStyle: .alert)
-                                let yesAction = UIAlertAction(title: "Buy", style: .default) { [weak self] (_) in
-                                    self?.buy = true
-            //                        self?.addPopUpContainerIfOwned()  //buat tampilan untuk pop up pertanyaan sebelumnya untuk 2T1L]
-                                    cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
-                                    playersDataArray[currentPlayerIndexForPopUp].currentPoin -= 170
-                                    
-                                    playersDataArray[lastOwnerIndex].currentPoin += 170
-                                    for i in 0..<self!.playerCoinTextArray.count {
-                                        self!.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
-                                    }
-                                    print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di 2 Truth 1 Lie board ke \(cardNode)")
-                                }
-                
-                                let noAction = UIAlertAction(title: "Skip", style: .cancel) { [weak self] (_) in
-                                    self?.buy = false
-            //                        self?.addPopUpContainerIfOwned()
-                                    //                self?.countShown = 1
-                                }
-                                alertController.addAction(yesAction)
-                                alertController.addAction(noAction)
-                
-                                view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-                            }
-                            else {
-//                                TAMPILAN PEMENANG
-                            }
-                            
-                        }
-                        else { //kalo gamau beli
-                            cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
-                            playersDataArray[currentPlayerIndexForPopUp].currentPoin -= 150
-                            
-                            playersDataArray[lastOwnerIndex].currentPoin += 150
-                            for i in 0..<self.playerCoinTextArray.count {
-                                self.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
-                            }
-                        }
-                        
-                        print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di 2 Truth 1 Lie board ke \(cardNode)")
-                    }
-                    else {
-                        // TAMPILAN PEMENANG
-                    }
+                    onAcquisitionMode = false
+                    addBuyOfferPopUp(challengeName: challengeName, buyCost: 150)
+                    
+                } else {
+                    onAcquisitionMode = true
+                    addPopUpContainer()
                 }
             }
-
             countShown = 1
             
-        } else if ((objPosition.x == 470 && objPosition.y == 0) || (objPosition.x == 280 && objPosition.y == -170) || (objPosition.x == -10 && objPosition.y == -210) || (objPosition.x == -180 && objPosition.y == -270) || (objPosition.x == -270 && objPosition.y == 240) || (objPosition.x == -470 && objPosition.y == 40)) && countShown == 0 {
-            
-            
+        } else if cardArray[cardNode].cardChallengesType == "Would You Rather" && countShown == 0 {
+            print(cardArray[cardNode].cardOwner)
+            print(playersDataArray[currentPlayerIndexForPopUp].playersName)
             
             challengeName = "Would You Rather"
-//            addBuyOfferPopUp()
             
             if cardArray[cardNode].cardOwner != playersDataArray[currentPlayerIndexForPopUp].playersName {
-
-//                addBuyOfferPopUp()
                 if cardArray[cardNode].cardOwner == "Null" {
-                    if playersDataArray[currentPlayerIndexForPopUp].currentPoin > 120 {
-                        let alertController = UIAlertController(title: "YOU LANDED ON", message: challengeName, preferredStyle: .alert)
-                        let yesAction = UIAlertAction(title: "Buy", style: .default) { [weak self] (_) in
-                            self?.buy = true
-    //                        self?.addPopUpContainer()  //2t1l
-                            cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
-                            playersDataArray[currentPlayerIndexForPopUp].currentPoin -= 120
-                            for i in 0..<self!.playerCoinTextArray.count {
-                                self!.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
-                            }
-                            print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di WY board ke \(cardNode)")
-                        }
-        
-                        let noAction = UIAlertAction(title: "Skip", style: .cancel) { [weak self] (_) in
-                            self?.buy = false
-                            //                self?.countShown = 1
-                        }
-                        alertController.addAction(yesAction)
-                        alertController.addAction(noAction)
-        
-                        view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-                    }
-                    else {
-                        // TAMPILAN PEMENANG
-                    }
+                    onAcquisitionMode = false
+                    addBuyOfferPopUp(challengeName: challengeName, buyCost: 120)
                     
-                }
-                else {
-                    if playersDataArray[currentPlayerIndexForPopUp].currentPoin > 120 {
-                        //                      TAMPILAN POPUP CHALLENGENYA. CHECK RETURNNYA. AKU PAKE VARIABLE RETURNANSWER DULU YAAA
-                        for i in 0...playersDataArray.count - 1 {
-                            if cardArray[cardNode].cardOwner == playersDataArray[i].playersName {
-                                lastOwnerIndex = i
-                                
-                            }
-                        }
-                        if returnAnswer == true {
-                            if playersDataArray[currentPlayerIndexForPopUp].currentPoin > 140 {
-                                let alertController = UIAlertController(title: "YOU LANDED ON", message: challengeName, preferredStyle: .alert)
-                                let yesAction = UIAlertAction(title: "Buy", style: .default) { [weak self] (_) in
-                                    self?.buy = true
-            //                        self?.addPopUpContainerIfOwned()  //buat tampilan untuk pop up pertanyaan sebelumnya untuk 2T1L
-                                    cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
-                                    playersDataArray[currentPlayerIndexForPopUp].currentPoin -= 140 //check lagi ngurangin berapa di rules
-                                    playersDataArray[lastOwnerIndex].currentPoin += 140
-                                    for i in 0..<self!.playerCoinTextArray.count {
-                                        self!.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
-                                    }
-                                    print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di WY board ke \(cardNode)")
-                                }
-                
-                                let noAction = UIAlertAction(title: "Skip", style: .cancel) { [weak self] (_) in
-                                    self?.buy = false
-            //                        self?.addPopUpContainerIfOwned()
-                                    //                self?.countShown = 1
-                                }
-                                alertController.addAction(yesAction)
-                                alertController.addAction(noAction)
-                
-                                view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-
-                            }
-                            else {
-//                  TAMPILAN PEMENANG
-                            }
-                            
-                        }
-                        else {
-                            cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
-                            playersDataArray[currentPlayerIndexForPopUp].currentPoin -= 120 //check lagi ngurangin berapa di rules
-                            playersDataArray[lastOwnerIndex].currentPoin += 120
-                            for i in 0..<self.playerCoinTextArray.count {
-                                self.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
-                            }
-                            print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di WY board ke \(cardNode)")
-                        }
-
-                        
-                    }
-                    else {
-                        // TAMPILAN PEMENANG
-                    }
+                } else {
+                    onAcquisitionMode = true
+                    addPopUpContainer2()
                 }
             }
-
             countShown = 1
             
-        }
-        else if ((objPosition.x == 420 && objPosition.y == 80) || (objPosition.x == 60 && objPosition.y == -130) || (objPosition.x == -270 && objPosition.y == -240) || (objPosition.x == -355 && objPosition.y == -205) || (objPosition.x == -80 && objPosition.y == 240)) && countShown == 0 {
+        } else if cardArray[cardNode].cardChallengesType == "Truth or Dare" && countShown == 0 {
+            print(cardArray[cardNode].cardOwner)
+            print(playersDataArray[currentPlayerIndexForPopUp].playersName)
             
             challengeName = "Truth or Dare"
-//            addBuyOfferPopUp()
+            
             if cardArray[cardNode].cardOwner != playersDataArray[currentPlayerIndexForPopUp].playersName {
-//                addBuyOfferPopUp()
                 if cardArray[cardNode].cardOwner == "Null" {
-                    if playersDataArray[currentPlayerIndexForPopUp].currentPoin > 180 {
-                        let alertController = UIAlertController(title: "YOU LANDED ON", message: challengeName, preferredStyle: .alert)
-                        let yesAction = UIAlertAction(title: "Buy", style: .default) { [weak self] (_) in
-                            self?.buy = true
-    //                        self?.addPopUpContainer()  //2t1l
-                            cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
-                            playersDataArray[currentPlayerIndexForPopUp].currentPoin -= 180
-                            for i in 0..<self!.playerCoinTextArray.count {
-                                self!.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
-                            }
-                            print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di Truth or Dare board ke \(cardNode)")
-                        }
-        
-                        let noAction = UIAlertAction(title: "Skip", style: .cancel) { [weak self] (_) in
-                            self?.buy = false
-                            //                self?.countShown = 1
-                        }
-                        alertController.addAction(yesAction)
-                        alertController.addAction(noAction)
-        
-                        view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-                    }
-                    else {
-                        // TAMPILAN PEMENANG
+                    onAcquisitionMode = false
+                    addBuyOfferPopUp(challengeName: challengeName, buyCost: 150)
+                    
+                } else {
+                    onAcquisitionMode = true
+                    if cardArray[move].secondPrompt == "DARE" {
+                        addPopUpContainer3(title: "DARE")
+                    } else {
+                        addPopUpContainer3(title: "TRUTH")
                     }
                     
                 }
-                else {
-                    if playersDataArray[currentPlayerIndexForPopUp].currentPoin > 180 {
-                        
-                        //                      TAMPILAN POPUP CHALLENGENYA. CHECK RETURNNYA. AKU PAKE VARIABLE RETURNANSWER DULU YAAA
-                        for i in 0...playersDataArray.count - 1 {
-                            if cardArray[cardNode].cardOwner == playersDataArray[i].playersName {
-                                lastOwnerIndex = i
-                                
-                            }
-                        }
-                        
-                        if returnAnswer == true {
-                            if playersDataArray[currentPlayerIndexForPopUp].currentPoin > 200 {
-                                let alertController = UIAlertController(title: "YOU LANDED ON", message: challengeName, preferredStyle: .alert)
-                                let yesAction = UIAlertAction(title: "Buy", style: .default) { [weak self] (_) in
-                                    self?.buy = true
-            //                        self?.addPopUpContainerIfOwned()  //buat tampilan untuk pop up pertanyaan sebelumnya untuk 2T1L
-                                    for i in 0...playersDataArray.count - 1 {
-                                        if cardArray[cardNode].cardOwner == playersDataArray[i].playersName {
-                                            lastOwnerIndex = i
-                                            
-                                        }
-                                    }
-                                    cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
-                                    playersDataArray[currentPlayerIndexForPopUp].currentPoin -= 200 //check lagi ngurangin berapa di rules
-                                    playersDataArray[lastOwnerIndex].currentPoin += 200
-                                    for i in 0..<self!.playerCoinTextArray.count {
-                                        self!.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
-                                    }
-                                    print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di Truth or Dare board ke \(cardNode)")
-                                }
-                
-                                let noAction = UIAlertAction(title: "Skip", style: .cancel) { [weak self] (_) in
-                                    self?.buy = false
-            //                        self?.addPopUpContainerIfOwned()
-                                    //                self?.countShown = 1
-                                }
-                                alertController.addAction(yesAction)
-                                alertController.addAction(noAction)
-                
-                                view?.window?.rootViewController?.present(alertController, animated: true, completion: nil)
-                            }
-                            else {
-//                                TAMPILAN PEMENANG
-                            }
-
-                        }
-                        else {
-                            cardArray[cardNode].cardOwner = playersDataArray[currentPlayerIndexForPopUp].playersName
-                            playersDataArray[currentPlayerIndexForPopUp].currentPoin -= 180 //check lagi ngurangin berapa di rules
-                            playersDataArray[lastOwnerIndex].currentPoin += 180
-                            for i in 0..<self.playerCoinTextArray.count {
-                                self.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
-                            }
-                            print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di Truth or Dare board ke \(cardNode)")
-                        }
-                    }
-                    else {
-                        // TAMPILAN PEMENANG
-                    }
-
-                }
             }
-
+                
             countShown = 1
             
-        } else if ((objPosition.x == 380 && objPosition.y == -180) || (objPosition.x == 320 && objPosition.y == 110) || (objPosition.x == -90 && objPosition.y == -250) || (objPosition.x == -425 && objPosition.y == -135) || (objPosition.x == -360 && objPosition.y == 200) || (objPosition.x == 10 && objPosition.y == 180)) && countShown == 0 {
+        } else if cardArray[cardNode].cardChallengesType == "Challenge" && countShown == 0 {
             
-            self.addChallengePopUp()   //challenge
-            // pastikan lagi
+            challengeName = "Challenge"
+            addChallengePopUp()   //challenge
             countShown = 1
             
+        } else if cardArray[cardNode].cardChallengesType == "Safe House" && countShown == 0 {
             
-        } else if ((objPosition.x == 190 && objPosition.y == -110)) && countShown == 0 {
+            challengeName = "Safe House"
+            print("Safe House!")
+            diceClicked = false
             
-            print("Nyampe Safe House")  //safe house
             playersDataArray[currentPlayerIndexForPopUp].currentPoin = Int(Double(playersDataArray[currentPlayerIndexForPopUp].currentPoin) + Double(playersDataArray[currentPlayerIndexForPopUp].currentPoin) * 0.1)
-            print("SAFE HOUSEEEE = \(playersDataArray[currentPlayerIndexForPopUp].currentPoin*Int(0.1))")
+            
             for i in 0..<self.playerCoinTextArray.count {
                 self.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
             }
-            print("poin safe house \(playersDataArray[currentPlayerIndexForPopUp].currentPoin)")
+            
             countShown = 1
-            print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di safehouse ke \(cardNode)")
             
-        } else if ((objPosition.x == -460 && objPosition.y == -50)) && countShown == 0 {
+        } else if cardArray[cardNode].cardChallengesType == "Force Move" && countShown == 0 {
             
-            print("Nyampe Force Move")  //Force Move
+            challengeName = "Force Move"
+            diceClicked = false
+            print("Force Move!")
+            
             let randomPosition = Int.random(in: 0...24)
             let randomPlayer = Int.random(in: 0...playersDataArray.count-1)
             playersDataArray[randomPlayer].currentSteps=randomPosition
             
             countShown = 1
-            print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses di force move di \(cardNode), manerik player \(playersDataArray[randomPlayer].playersName) ke \(randomPosition)")
             
-        } else if ((objPosition.x == 70 && objPosition.y == 90)) && countShown == 0 {
+        } else if cardArray[cardNode].cardChallengesType == "LG" && countShown == 0 {
             
-            print("Nyampe Let Go")  //Let Go
+            challengeName = "Let Go"
+            diceClicked = false
+            print("Let Go!")
+            
             playersDataArray[currentPlayerIndexForPopUp].currentPoin = Int(Double(playersDataArray[currentPlayerIndexForPopUp].currentPoin) - Double(playersDataArray[currentPlayerIndexForPopUp].currentPoin) * 0.1)
+            
             for i in 0..<self.playerCoinTextArray.count {
                 self.playerCoinTextArray[i].text = "\(playersDataArray[i].currentPoin)"
             }
-            countShown = 1
-            print("namanya: \(playersDataArray[currentPlayerIndexForPopUp].playersName), dan poinnya setelah  di proses: \(playersDataArray[currentPlayerIndexForPopUp].currentPoin),  di proses let go ke \(cardNode)")
             
-        } else if ((objPosition.x == 130 && objPosition.y == -10)) && countShown == 0 {
-            
-            print("Nyampe Start")  //Start
             countShown = 1
+            
+        } else if cardArray[cardNode].cardChallengesType == "Start" && countShown == 0 {
+            
+            challengeName = "Start"
+            diceClicked = false
+            
+            print("Start!")
             presentSwiftUIView()
             
+            countShown = 1
         }
     }
     
@@ -1668,7 +1443,4 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
     }
 }
-
-
 //----------------------------------------------------------------------------------
-
