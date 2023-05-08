@@ -25,16 +25,20 @@ struct SelectPlayer: View {
     var body: some View {
         
         ZStack{
-            VStack{
+            VStack(spacing: 40){
                 Text("PLAYER COUNT")
                     .font(.largeTitle)
+                    .fontWeight(.bold)
                     .foregroundColor(.black)
+                    .padding(.bottom)
                 Text("\(Int(playerCount))")
-                    .font(.title)
-                    .foregroundColor(.black)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(Color(UIColor.systemGreen))
                 Slider(value: $playerCount, in: 2...4)
                     .frame(width: 350)
                     .disabled(slider)
+                    .tint(Color(UIColor.systemGreen))
                 Button(action: {
                     isHidden.toggle()
                     slider.toggle()
@@ -42,8 +46,10 @@ struct SelectPlayer: View {
                 }) {
                     Image("Next")
                         .resizable()
-                        .frame(width: 100, height: 50)
+                        .scaledToFit()
+                        .frame(width: 200)
                 }
+                .padding(.top)
                 .disabled(slider)
             }
             .frame(width: 500, height: 500)
@@ -64,23 +70,26 @@ struct SelectPlayer: View {
             )
             if isHidden {
                 VStack {
-                    Text("PLAYER NAME")
+                    Text("PLAYERS NAME")
                         .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.black)
+                        .padding(.vertical)
                     
                     ScrollView {
                         ForEach(0..<Int(playerCount), id: \.self) { index in
                             ZStack() {
                                 Rectangle()
-                                    .frame(width: 300, height: 200)
+                                    .frame(width: 300, height: 240)
                                     .cornerRadius(25)
                                     .foregroundColor(.green)
                                     .opacity(0.3)
-                                    .shadow(radius: 5)
                                     .padding(.bottom, 10)
-                                VStack() {
+                                VStack(spacing: 25) {
                                     Image("playerfix\(index+1)")
-                                    TextField("Player \(index + 1)", text: $playerNames[index])
-                                        .frame(width: 150)
+                                    TextField("Enter name", text: $playerNames[index])
+                                        .frame(width: 240, height: 50)
+                                        .font(.title2)
                                         .background(.white)
                                         .cornerRadius(10)
                                         .multilineTextAlignment(.center)
@@ -93,7 +102,9 @@ struct SelectPlayer: View {
 //                    .frame(width: 500, height: 500)
                     Image("Start")
                         .resizable()
-                        .frame(width: 100, height: 50)
+                        .scaledToFit()
+                        .frame(width: 200)
+                        .padding(.vertical)
                         .onTapGesture {
                             
                             for index in 0..<Int(playerCount) {
@@ -111,7 +122,7 @@ struct SelectPlayer: View {
                     
                     //            .hidden()
                 }
-                    .frame(width: 500, height: 500)
+                    .frame(width: 500, height: 700)
                     .background(.white)
                     .cornerRadius(20)
 //                .offset(x:-30)

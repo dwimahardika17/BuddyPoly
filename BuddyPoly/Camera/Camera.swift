@@ -15,6 +15,7 @@ struct Camera : View {
 //    @EnvironmentObject var viewModel: GameViewModel
     @State private var showingAlert = false
     @State private var showHomeView = false
+//    @State private var capturedImage: UIImage?
     
     var body: some View {
         ZStack(alignment: .bottom){
@@ -26,8 +27,10 @@ struct Camera : View {
                         return
                     }
                     
+                    let imageWithFrame = addFrame(to: image)
+                    
                     // Create a new PHAssetCollection (album) or retrieve an existing one
-                    let albumTitle = "Sakara"
+                    let albumTitle = "BuddyPoly"
                     var assetCollection: PHAssetCollection?
                     let options = PHFetchOptions()
                     options.predicate = NSPredicate(format: "title = %@", albumTitle)
@@ -49,7 +52,7 @@ struct Camera : View {
                     // Save the image to the custom album
                     if let album = assetCollection {
                         PHPhotoLibrary.shared().performChanges({
-                            let assetChangeRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+                            let assetChangeRequest = PHAssetChangeRequest.creationRequestForAsset(from: imageWithFrame!)
                             let albumChangeRequest = PHAssetCollectionChangeRequest(for: album)
                             albumChangeRequest?.addAssets([assetChangeRequest.placeholderForCreatedAsset!] as NSFastEnumeration)
                         }, completionHandler: { (success, error) in
@@ -77,7 +80,36 @@ struct Camera : View {
             }
             
         }
+    
     }
+func addFrame(to image: UIImage) -> UIImage? {
+    let frameImage = UIImage(named: "frame")! // replace with your own frame image
+    
+    let size = image.size
+    let frameSize = frameImage.size
+    
+    // Calculate the scaling factor based on the width of the image
+    let scaleFactor = size.width / frameSize.width
+    
+    // Scale the frame size
+    let scaledFrameSize = CGSize(width: frameSize.width * scaleFactor, height: frameSize.height * scaleFactor)
+    
+    UIGraphicsBeginImageContext(size)
+    
+    // Draw the original image
+    image.draw(in: CGRect(origin: .zero, size: size))
+    
+    // Draw the scaled frame on top of the original image
+    let x = (size.width - scaledFrameSize.width) / 2
+    let y = (size.height - scaledFrameSize.height) / 2
+    frameImage.draw(in: CGRect(origin: CGPoint(x: x, y: y), size: scaledFrameSize))
+    
+    let resultImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    return resultImage
+}
+
 //}
 
 struct ARVariables{

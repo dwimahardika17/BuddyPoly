@@ -25,7 +25,24 @@
 		4BA7EB292A01106B00076BD9 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA7EB282A01106B00076BD9 /* GameScene.swift */; };
 		4BA7EB2B2A0110B000076BD9 /* PlayersAndCardInitiation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA7EB2A2A0110B000076BD9 /* PlayersAndCardInitiation.swift */; };
 		4BA7EB2D2A0110F500076BD9 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA7EB2C2A0110F500076BD9 /* Game.swift */; };
+		65F05F572A07F82700E95FDA /* ForceMoveInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F492A07F82700E95FDA /* ForceMoveInfoView.swift */; };
+		65F05F582A07F82700E95FDA /* BoardInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F4A2A07F82700E95FDA /* BoardInfoView.swift */; };
+		65F05F592A07F82700E95FDA /* AquisitionInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F4B2A07F82700E95FDA /* AquisitionInfoView.swift */; };
+		65F05F5A2A07F82700E95FDA /* CameraInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F4C2A07F82700E95FDA /* CameraInfoView.swift */; };
+		65F05F5B2A07F82700E95FDA /* StartInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F4D2A07F82700E95FDA /* StartInfoView.swift */; };
+		65F05F5C2A07F82700E95FDA /* SafeHouseInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F4E2A07F82700E95FDA /* SafeHouseInfoView.swift */; };
+		65F05F5D2A07F82700E95FDA /* ChallengeInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F4F2A07F82700E95FDA /* ChallengeInfoView.swift */; };
+		65F05F5E2A07F82700E95FDA /* BuyTilesInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F502A07F82700E95FDA /* BuyTilesInfoView.swift */; };
+		65F05F5F2A07F82700E95FDA /* EndGameInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F512A07F82700E95FDA /* EndGameInfoView.swift */; };
+		65F05F602A07F82700E95FDA /* CoinInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F522A07F82700E95FDA /* CoinInstructionView.swift */; };
+		65F05F612A07F82700E95FDA /* LetGoInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F532A07F82700E95FDA /* LetGoInfoView.swift */; };
+		65F05F622A07F82700E95FDA /* OutroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F542A07F82700E95FDA /* OutroView.swift */; };
+		65F05F632A07F82700E95FDA /* IntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F552A07F82700E95FDA /* IntroView.swift */; };
+		65F05F642A07F82700E95FDA /* PlayerInstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F05F562A07F82700E95FDA /* PlayerInstructionView.swift */; };
 		BAC287E92A07B98D0038C6D5 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BAC287E82A07B98D0038C6D5 /* Logo.png */; };
+		BAC287EB2A07EB760038C6D5 /* frame.png in Resources */ = {isa = PBXBuildFile; fileRef = BAC287EA2A07EB760038C6D5 /* frame.png */; };
+		BAC287ED2A07EDDB0038C6D5 /* frame1.png in Resources */ = {isa = PBXBuildFile; fileRef = BAC287EC2A07EDDB0038C6D5 /* frame1.png */; };
+		BAC287F12A080D310038C6D5 /* Galery.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC287F02A080D310038C6D5 /* Galery.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +85,24 @@
 		4BA7EB282A01106B00076BD9 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		4BA7EB2A2A0110B000076BD9 /* PlayersAndCardInitiation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersAndCardInitiation.swift; sourceTree = "<group>"; };
 		4BA7EB2C2A0110F500076BD9 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		65F05F492A07F82700E95FDA /* ForceMoveInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForceMoveInfoView.swift; sourceTree = "<group>"; };
+		65F05F4A2A07F82700E95FDA /* BoardInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardInfoView.swift; sourceTree = "<group>"; };
+		65F05F4B2A07F82700E95FDA /* AquisitionInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AquisitionInfoView.swift; sourceTree = "<group>"; };
+		65F05F4C2A07F82700E95FDA /* CameraInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraInfoView.swift; sourceTree = "<group>"; };
+		65F05F4D2A07F82700E95FDA /* StartInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartInfoView.swift; sourceTree = "<group>"; };
+		65F05F4E2A07F82700E95FDA /* SafeHouseInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafeHouseInfoView.swift; sourceTree = "<group>"; };
+		65F05F4F2A07F82700E95FDA /* ChallengeInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeInfoView.swift; sourceTree = "<group>"; };
+		65F05F502A07F82700E95FDA /* BuyTilesInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyTilesInfoView.swift; sourceTree = "<group>"; };
+		65F05F512A07F82700E95FDA /* EndGameInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndGameInfoView.swift; sourceTree = "<group>"; };
+		65F05F522A07F82700E95FDA /* CoinInstructionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoinInstructionView.swift; sourceTree = "<group>"; };
+		65F05F532A07F82700E95FDA /* LetGoInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetGoInfoView.swift; sourceTree = "<group>"; };
+		65F05F542A07F82700E95FDA /* OutroView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutroView.swift; sourceTree = "<group>"; };
+		65F05F552A07F82700E95FDA /* IntroView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroView.swift; sourceTree = "<group>"; };
+		65F05F562A07F82700E95FDA /* PlayerInstructionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerInstructionView.swift; sourceTree = "<group>"; };
 		BAC287E82A07B98D0038C6D5 /* Logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Logo.png; sourceTree = "<group>"; };
+		BAC287EA2A07EB760038C6D5 /* frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame.png; sourceTree = "<group>"; };
+		BAC287EC2A07EDDB0038C6D5 /* frame1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = frame1.png; sourceTree = "<group>"; };
+		BAC287F02A080D310038C6D5 /* Galery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Galery.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +137,7 @@
 				4B116B052A03D1DC007B85D9 /* ARViewModel.swift */,
 				4B116B072A03D1F8007B85D9 /* Camera.swift */,
 				4B116B0A2A04F88E007B85D9 /* Mission02.rcproject */,
+				BAC287F02A080D310038C6D5 /* Galery.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -131,10 +166,13 @@
 			isa = PBXGroup;
 			children = (
 				4B116B092A04AE90007B85D9 /* Info.plist */,
+				65F05F482A07F82700E95FDA /* HowToPlayView */,
 				4B116B022A03D18D007B85D9 /* Camera */,
 				4BA7EAF92A00EFAD00076BD9 /* BuddyPolyApp.swift */,
 				4BA7EAFB2A00EFAD00076BD9 /* ContentView.swift */,
+				BAC287EC2A07EDDB0038C6D5 /* frame1.png */,
 				4B116AC22A021379007B85D9 /* mini2.jpeg */,
+				BAC287EA2A07EB760038C6D5 /* frame.png */,
 				4BA7EAFD2A00EFAE00076BD9 /* Assets.xcassets */,
 				BAC287E82A07B98D0038C6D5 /* Logo.png */,
 				4BA7EB2C2A0110F500076BD9 /* Game.swift */,
@@ -179,6 +217,27 @@
 				4B116AC62A03588A007B85D9 /* Challenge.swift */,
 			);
 			path = GameScene;
+			sourceTree = "<group>";
+		};
+		65F05F482A07F82700E95FDA /* HowToPlayView */ = {
+			isa = PBXGroup;
+			children = (
+				65F05F492A07F82700E95FDA /* ForceMoveInfoView.swift */,
+				65F05F4A2A07F82700E95FDA /* BoardInfoView.swift */,
+				65F05F4B2A07F82700E95FDA /* AquisitionInfoView.swift */,
+				65F05F4C2A07F82700E95FDA /* CameraInfoView.swift */,
+				65F05F4D2A07F82700E95FDA /* StartInfoView.swift */,
+				65F05F4E2A07F82700E95FDA /* SafeHouseInfoView.swift */,
+				65F05F4F2A07F82700E95FDA /* ChallengeInfoView.swift */,
+				65F05F502A07F82700E95FDA /* BuyTilesInfoView.swift */,
+				65F05F512A07F82700E95FDA /* EndGameInfoView.swift */,
+				65F05F522A07F82700E95FDA /* CoinInstructionView.swift */,
+				65F05F532A07F82700E95FDA /* LetGoInfoView.swift */,
+				65F05F542A07F82700E95FDA /* OutroView.swift */,
+				65F05F552A07F82700E95FDA /* IntroView.swift */,
+				65F05F562A07F82700E95FDA /* PlayerInstructionView.swift */,
+			);
+			path = HowToPlayView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,6 +347,8 @@
 				BAC287E92A07B98D0038C6D5 /* Logo.png in Resources */,
 				4BA7EB012A00EFAE00076BD9 /* Preview Assets.xcassets in Resources */,
 				4BA7EAFE2A00EFAE00076BD9 /* Assets.xcassets in Resources */,
+				BAC287ED2A07EDDB0038C6D5 /* frame1.png in Resources */,
+				BAC287EB2A07EB760038C6D5 /* frame.png in Resources */,
 				4B116AC32A021379007B85D9 /* mini2.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,17 +375,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B116B082A03D1F8007B85D9 /* Camera.swift in Sources */,
+				65F05F582A07F82700E95FDA /* BoardInfoView.swift in Sources */,
 				4BA7EB262A010EB100076BD9 /* SelectPlayer.swift in Sources */,
+				65F05F5B2A07F82700E95FDA /* StartInfoView.swift in Sources */,
+				65F05F602A07F82700E95FDA /* CoinInstructionView.swift in Sources */,
 				4B116AC72A03588A007B85D9 /* Challenge.swift in Sources */,
+				65F05F5E2A07F82700E95FDA /* BuyTilesInfoView.swift in Sources */,
+				65F05F612A07F82700E95FDA /* LetGoInfoView.swift in Sources */,
 				4B116B042A03D1A1007B85D9 /* ARModel.swift in Sources */,
 				4BA7EB2D2A0110F500076BD9 /* Game.swift in Sources */,
 				4B116B0B2A04F88E007B85D9 /* Mission02.rcproject in Sources */,
+				65F05F5C2A07F82700E95FDA /* SafeHouseInfoView.swift in Sources */,
+				65F05F592A07F82700E95FDA /* AquisitionInfoView.swift in Sources */,
 				4BA7EB2B2A0110B000076BD9 /* PlayersAndCardInitiation.swift in Sources */,
+				BAC287F12A080D310038C6D5 /* Galery.swift in Sources */,
+				65F05F622A07F82700E95FDA /* OutroView.swift in Sources */,
+				65F05F572A07F82700E95FDA /* ForceMoveInfoView.swift in Sources */,
 				4B116B062A03D1DC007B85D9 /* ARViewModel.swift in Sources */,
+				65F05F632A07F82700E95FDA /* IntroView.swift in Sources */,
 				4BA7EAFC2A00EFAD00076BD9 /* ContentView.swift in Sources */,
 				4BA7EB292A01106B00076BD9 /* GameScene.swift in Sources */,
+				65F05F5D2A07F82700E95FDA /* ChallengeInfoView.swift in Sources */,
 				4B116AC52A035867007B85D9 /* File.swift in Sources */,
 				4BA7EAFA2A00EFAD00076BD9 /* BuddyPolyApp.swift in Sources */,
+				65F05F5A2A07F82700E95FDA /* CameraInfoView.swift in Sources */,
+				65F05F642A07F82700E95FDA /* PlayerInstructionView.swift in Sources */,
+				65F05F5F2A07F82700E95FDA /* EndGameInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +557,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon 1";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BuddyPoly/Preview Content\"";
@@ -504,6 +581,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = intro.BuddyPoly;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -519,7 +597,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BuddyPoly/Preview Content\"";
-				DEVELOPMENT_TEAM = XB257LU5GX;
+				DEVELOPMENT_TEAM = 9MCN5686MN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BuddyPoly/Info.plist;

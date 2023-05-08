@@ -22,15 +22,19 @@ struct ContentView: View {
                 NavigationLink(destination: SelectPlayer()){
                         Image("Play")
                         .resizable()
-                        .offset(y:60)
                         .frame(width: 370, height: 150)
                         
                     }
-                NavigationLink(destination: SelectPlayer()){
+                NavigationLink(destination: IntroView()){
                         Image("HowToPlay")
                         .resizable()
                         .frame(width: 370, height: 100)
-                        .offset(y:80)
+                        
+                    }
+                NavigationLink(destination: Galery()){
+                        Image("Galery")
+                        .resizable()
+                        .frame(width: 370, height: 100)
                         
                     }
                 
@@ -43,6 +47,7 @@ struct ContentView: View {
         .padding()
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .navigationBarBackButtonHidden(true)
     }
 }
 
